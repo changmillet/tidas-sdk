@@ -15,9 +15,9 @@ checkPaths:
   - .github/dependabot.yml
   - .github/workflows/ci.yml
   - docs/agents/dependency-updates.md
-lastReviewedAt: 2026-10-18
-lastReviewedCommit: 3c0b7eb4fab554418f7e71620146e65366a9d246
-lastReviewedNote: "Reviewed SDK #168 after composing delivered #169: exact Actions pins and real Python artifact transfer retain the public Model/Process tests and 95/75/70 coverage gates; package graph, versions, runtime/source identities and release authority are unchanged."
+lastReviewedAt: 2026-10-26
+lastReviewedCommit: 78b9f18f081143b07d25cb39bf3660aa42ad9d4c
+lastReviewedNote: "SDK #174: reviewed the exact @types/node >=25.0.0 ceiling on the root pnpm updater covering SDK and examples. Node 24 LTS updates remain eligible; runtime/source/package pins, unrelated updates, canonical verification and publication authority are unchanged. Hosted activation remains separate."
 related:
   - ../../AGENTS.md
   - ./repo-validation.md
@@ -32,6 +32,14 @@ uses a seven-day cooldown. npm and pip each permit two open version-update PRs;
 Actions permits one. Compatible minor and patch updates are grouped by runtime
 or development role for TypeScript, and together for Python. Major package
 updates remain individually visible. Actions updates share one group.
+
+The npm entry ignores only `@types/node` versions `>=25.0.0`, keeping 24.x
+updates available within the Node 24 LTS compatibility baseline. The existing
+root pnpm updater covers both the TypeScript SDK and examples; no additional
+updater graph is needed. Revisit this ceiling only with explicit approval of a
+major Node runtime/types baseline change and its compatibility qualification.
+Unrelated package and Actions majors remain eligible, and installed dependencies,
+runtime pins and package versions are unchanged.
 
 The root `pnpm-lock.yaml` remains the TypeScript SDK and examples dependency
 authority. Python uses `pip` monitoring of `sdks/python/pyproject.toml` because
