@@ -19,7 +19,7 @@ checkPaths:
   - package.json
   - .docpact/config.yaml
 lastReviewedAt: 2026-11-15
-lastReviewedCommit: 6434b09f80f4d47dbe46af132b45f96e4d1aaec6
+lastReviewedCommit: dc4d2d0d77f4f9970be7d2b8a01639ecc218f971
 lastReviewedNote: "Reviewed SDK #171: TypeScript 0.6.0/exact Zod 4.6.7 prepares public-spec code-point/seconds validation and matching string diagnostics; Python/upstream assets, overlays, 95/75/70 gates and release automation are unchanged. Main merge/publication authorization remains separate."
 related:
   - ../AGENTS.md
