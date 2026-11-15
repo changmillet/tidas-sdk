@@ -40,3 +40,5 @@ export * from './validation/tidas-languages';
 export { deepClone, merge, get, set, updatePath } from '../utils/object-utils';
 
 export * from './validation/process-semantics';
+
+export * from './validation/process-flow-reference-name';

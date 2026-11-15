@@ -321,3 +321,41 @@ the aggregate result before using any projection.
 The shared `tests/fixtures/process-semantics.v1.json` is consumed independently
 by TypeScript and native Rust Toolkit tests. Source qualification does not claim
 registry publication or downstream runtime adoption. Python API is unchanged.
+
+### Process exchange Flow reference names
+
+TypeScript 0.8.0 provides the same `tidas.process-flow-reference-name.v1`
+policy as Python 0.5.0. The package root and `/core` export the rule, the
+name composer and the exchange-reference collector.
+
+```typescript
+import { analyzeProcessFlowReferences, composeFlowName } from '@tiangong-lca/tidas-sdk';
+
+const { description, issues } = composeFlowName(
+  flow.flowDataSet.flowInformation.dataSetInformation.name
+);
+const result = analyzeProcessFlowReferences(process, {
+  flows: [{ uuid: flowUuid, version: flowVersion, document: flow }],
+});
+```
+
+The composer joins `baseName`, `treatmentStandardsRoutes`, `mixAndLocationTypes`
+and `name.flowProperties` in that order with `; ` in each language. It trims
+outer XML whitespace (space, tab, CR and LF), normalizes text to NFC and
+preserves interior whitespace and punctuation. A blank optional segment or
+dash placeholder contributes no text. Each substantive segment needs a value
+for every base-name language and needs a base name in every language it adds.
+The result orders languages by code. Missing translations, duplicate languages
+and a composed name over 1000 Unicode code points produce diagnostics and no
+description candidate. A valid single-part name needs no separators.
+
+The analyzer compares the normalized text and exact language set against the
+selected Flow UUID and version. It reports each reference's path, target
+identity and coverage, plus expected and actual text for a mismatch. Identical
+evidence can be supplied repeatedly. Conflicting documents, missing versions
+and invalid Flow identity leave coverage unresolved. Check `complete` and
+`valid` together, alongside structural validation. The analyzer works on
+caller-supplied raw TIDAS documents and uses no resolver, filesystem, network
+or mutation. Existing structural validation and the allocation profile keep
+their existing contract. Consumers can use a successful composition as a
+reviewable candidate when constructing or repairing a reference.

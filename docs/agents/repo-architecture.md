@@ -162,3 +162,9 @@ The ILCD compatibility candidate extends generated singletons with repeated fiel
 ## Process semantic analysis
 
 `sdks/typescript/src/core/validation/process-semantics.ts` owns pure allocation/reference analysis and is exported from both root and `core`. It uses explicit exact Flow evidence, returns coverage and interpretations, and never participates implicitly in schema generation or `strict` validation. The TypeScript/Toolkit conformance fixture binds the versioned consumer policy; it is not a public specification asset. Consumers own resolver access, evidence hashes, modelling decisions and acceptance disposition.
+
+`tidas.process-flow-reference-name.v1` checks the exact referenced Flow name for
+every exchange. The TypeScript and Python public SDKs each implement the same
+pure composition and comparison contract, verified against a common fixture.
+The consumer supplies exact document evidence and decides write admission.
+See the [TypeScript SDK contract](../../sdks/typescript/README.md#process-exchange-flow-reference-names).

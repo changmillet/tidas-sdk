@@ -45,7 +45,20 @@ from .core.factory import (  # noqa: F401
     TidasUnitGroup,
 )
 
+from .core.process_flow_reference_name import (
+    PROCESS_FLOW_REFERENCE_NAME_PROFILE,
+    ExactFlowNameEvidence,
+    analyze_process_flow_references,
+    collect_process_flow_references,
+    compose_flow_name,
+)
+
 __all__ = [
+    "PROCESS_FLOW_REFERENCE_NAME_PROFILE",
+    "ExactFlowNameEvidence",
+    "analyze_process_flow_references",
+    "collect_process_flow_references",
+    "compose_flow_name",
     "create_contact",
     "create_contact",
     "create_contact_from_json",
