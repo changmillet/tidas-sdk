@@ -7,7 +7,10 @@ import {
   isValidCASNumber,
 } from './../core/validation/cas-number';
 import { TIDAS_LANGUAGE_CODES } from './../core/validation/tidas-languages';
-import { withJsonSchemaUniqueItems } from './../core/validation/json-schema';
+import {
+  withJsonSchemaUniqueItems,
+  withUniqueLocalizedLanguages,
+} from './../core/validation/json-schema';
 
 export const CASNumberSchema = z
   .string()
@@ -281,8 +284,10 @@ export const AnnualSupplyOrProductionVolumeTextItemSchema =
   }).superRefine(addLocalizedTextLanguageChecks);
 
 export const AnnualSupplyOrProductionVolumeMultiLangSchema = z.union([
-  withJsonSchemaUniqueItems(
-    z.array(AnnualSupplyOrProductionVolumeTextItemSchema),
+  withUniqueLocalizedLanguages(
+    withJsonSchemaUniqueItems(
+      z.array(AnnualSupplyOrProductionVolumeTextItemSchema),
+    ),
   ),
   AnnualSupplyOrProductionVolumeTextItemSchema,
 ]);
@@ -301,7 +306,9 @@ const addRequiredMultiLangIssue = (value: unknown, ctx: z.RefinementCtx) => {
 };
 
 export const StringMultiLangSchema = z.union([
-  z.array(LocalizedText500ItemSchema),
+  withUniqueLocalizedLanguages(
+    withJsonSchemaUniqueItems(z.array(LocalizedText500ItemSchema)),
+  ),
   LocalizedText500ItemSchema,
 ]);
 
@@ -334,7 +341,9 @@ export const STSchema = z.string().max(1000);
 export const StringSchema = z.string().min(1).max(500);
 
 export const STMultiLangSchema = z.union([
-  z.array(LocalizedText1000ItemSchema),
+  withUniqueLocalizedLanguages(
+    withJsonSchemaUniqueItems(z.array(LocalizedText1000ItemSchema)),
+  ),
   LocalizedText1000ItemSchema,
 ]);
 
@@ -343,7 +352,9 @@ export const RequiredSTMultiLangSchema = STMultiLangSchema.superRefine(
 );
 
 export const FTMultiLangSchema = z.union([
-  z.array(LocalizedTextItemSchema),
+  withUniqueLocalizedLanguages(
+    withJsonSchemaUniqueItems(z.array(LocalizedTextItemSchema)),
+  ),
   LocalizedTextItemSchema,
 ]);
 

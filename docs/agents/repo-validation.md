@@ -104,6 +104,8 @@ Facts that matter:
 - TypeScript callers should prefer `validateEnhanced()` and consume the returned `validationIssues` array instead of parsing raw Zod error prose when stable UI or API behavior matters.
 - Normalized validation issues should preserve `code`, `path`, `severity`, optional `params`, `message`, and `rawCode`.
 - Generated localized-text checks must keep attaching `params.validationCode` so the downstream normalized code resolves to stable values such as `localized_text_zh_must_include_chinese_character` and `localized_text_en_must_not_contain_chinese_character`.
+- A declared multilingual list accepts at most one entry per supported language. TypeScript emits `duplicate_language_entry` at the repeated entry's `@xml:lang` path with `language` and `firstIndex` parameters, including when another entry fails a union branch. Verify identical and distinct texts with the same tag, singleton and different-language controls, and independent multilingual fields. Python's Pydantic fields and generated list aliases enforce the same language rule. Raw Draft-07 validation enforces the pinned schema's whole-item `uniqueItems` constraint.
+- The language rule tightens acceptance of historical data. Release it on an opt-in pre-1.0 minor line and publish compatibility notes. Callers can revise their authored data before validation, preserving original paragraphs and the declared field length limits.
 - Generated TypeScript and Python Flow validators must prove that an Elementary
   flow accepts `baseName` without synthetic qualifiers and Product, Waste, and
   Other flows reject missing `treatmentStandardsRoutes` or

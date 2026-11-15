@@ -100,6 +100,7 @@ It also owns the stable validation contract that downstream apps consume:
 - `sdks/typescript/scripts/json-schema-to-zod.ts` renders the locked upstream JSON Schema AST directly, without the TypeScript Compiler API or an intermediate generated interface
 - `sdks/typescript/scripts/generate-zod-schemas.ts` applies the small named domain overlays for custom validation codes, recursive `common:other`, CAS checks, required localized text, and the Flow name condition
 - `sdks/typescript/src/core/validation/json-schema.ts` supplies browser/Node-compatible oneOf, conditional, dependency, tuple, and deep-unique semantics used by generated modules
+- The renderer applies the SDK language-uniqueness overlay at the four localized array definitions in the locked data-types schema. Required variants reuse those arrays and their original whole-item uniqueness constraint. Python applies the field-local rule through Pydantic `MultiLangList` fields and generated localized list aliases.
 - unsupported structural schema shapes fail generation; there is no permissive fallback schema
 - `sdks/typescript/scripts/verify-zod-generation-parity.ts` compares a candidate generator against a previously built baseline with stable success and issue code/path signatures
 - `sdks/typescript/src/core/config/ValidationConfig.ts` normalizes raw Zod issues into the `validationIssues` payload returned by `validateEnhanced()`

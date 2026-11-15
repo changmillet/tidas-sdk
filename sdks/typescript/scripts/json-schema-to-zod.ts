@@ -454,6 +454,13 @@ export class JsonSchemaToZod {
         this.validationHelpers.add('withJsonSchemaUniqueItems');
         rendered = `withJsonSchemaUniqueItems(${rendered})`;
       }
+      if (
+        this.fileName === 'tidas_data_types.json' &&
+        LOCALIZED_TEXT_ARRAYS.has(location)
+      ) {
+        this.validationHelpers.add('withUniqueLocalizedLanguages');
+        rendered = `withUniqueLocalizedLanguages(${rendered})`;
+      }
     }
 
     return rendered;
@@ -1023,6 +1030,13 @@ function validateSchemaTree(
     }
   }
 }
+
+const LOCALIZED_TEXT_ARRAYS = new Set([
+  '#/$defs/AnnualSupplyOrProductionVolumeMultiLang/anyOf/0',
+  '#/$defs/FTMultiLang/anyOf/0',
+  '#/$defs/STMultiLang/anyOf/0',
+  '#/$defs/StringMultiLang/anyOf/0',
+]);
 
 function isCommonOtherOverlay(fileName: string, location: string): boolean {
   return (

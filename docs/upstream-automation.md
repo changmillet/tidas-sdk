@@ -207,7 +207,7 @@ Validation-contract safeguard for TypeScript refreshes:
 
 - require the frozen pnpm 11.24.0 workspace install on Node 24.19.0 and toolchain contracts to prove every resolved TypeScript compiler is 7.x and the packed SDK carries no compiler or generator tooling
 - render Zod modules directly from the asset-lock-selected JSON Schema directory; do not restore an intermediate TypeScript parser or permissive fallback generator
-- when regeneration touches localized-text schemas or validation helpers, keep the post-processing that injects `params.validationCode` into custom localized-text issues
+- when regeneration touches localized-text schemas or validation helpers, preserve whole-item `uniqueItems` and the localized array overlay. Keep `params.validationCode` on custom localized-text diagnostics
 - when Flow schemas contain cross-field `if` / `then` conditions, keep the generated Zod/Pydantic type-aware validator post-processing
 - confirm the committed TypeScript package still normalizes raw Zod issues into stable `validationIssues` codes for downstream consumers
 - for generator implementation changes, compare the candidate against a pre-change baseline with `pnpm --filter @tiangong-lca/tidas-sdk verify:schema-generation-parity` before replacing the baseline build

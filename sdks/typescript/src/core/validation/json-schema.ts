@@ -1,4 +1,7 @@
 import { z } from 'zod';
+import { TIDAS_LANGUAGE_CODES } from './tidas-languages';
+
+const supportedLanguages = new Set<string>(TIDAS_LANGUAGE_CODES);
 
 type SchemaDependency =
   | {
@@ -78,6 +81,7 @@ function addUniqueItemsIssue(values: readonly unknown[], ctx: z.RefinementCtx) {
           code: 'custom',
           path: [right],
           message: 'Array items must be unique',
+          params: { jsonSchemaKeyword: 'uniqueItems' },
         });
         break;
       }
@@ -232,6 +236,51 @@ export function withJsonSchemaUniqueItems<TSchema extends z.ZodType<unknown[]>>(
   schema: TSchema
 ): TSchema {
   return schema.superRefine(addUniqueItemsIssue) as TSchema;
+}
+
+/** Enforce the SDK's field-local language rule on a declared localized array. */
+export function withUniqueLocalizedLanguages<
+  TSchema extends z.ZodType<readonly { '@xml:lang': string }[]>,
+>(schema: TSchema): TSchema {
+  return schema.check(
+    z.superRefine(
+      (entries: readonly unknown[], ctx) => {
+        const firstByLanguage = new Map<string, number>();
+        entries.forEach((entry, index) => {
+          if (
+            typeof entry !== 'object' ||
+            entry === null ||
+            !('@xml:lang' in entry)
+          ) {
+            return;
+          }
+          const language = entry['@xml:lang'];
+          if (
+            typeof language !== 'string' ||
+            !supportedLanguages.has(language)
+          ) {
+            return;
+          }
+          const firstIndex = firstByLanguage.get(language);
+          if (firstIndex === undefined) {
+            firstByLanguage.set(language, index);
+            return;
+          }
+          ctx.addIssue({
+            code: 'custom',
+            path: [index, '@xml:lang'],
+            message: `Language ${language} already occurs at index ${firstIndex} in this field`,
+            params: {
+              validationCode: 'duplicate_language_entry',
+              language,
+              firstIndex,
+            },
+          });
+        });
+      },
+      { when: ({ value }) => Array.isArray(value) }
+    )
+  ) as TSchema;
 }
 
 /** Draft-07 `not: {required: [...]}` rejects coexisting aliases, including non-objects. */

@@ -37,6 +37,9 @@ GENERIC_MULTILANG_REF_NAMES = {
     "STMultiLang",
     "FTMultiLang",
 }
+LOCALIZED_TEXT_UNION_NAMES = GENERIC_MULTILANG_REF_NAMES | {
+    "AnnualSupplyOrProductionVolumeMultiLang",
+}
 CHINESE_CHARACTER_PATTERN = r"[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]"
 FLOW_NAME_CONDITIONAL_FIELDS = {
     "treatmentStandardsRoutes",
@@ -1114,6 +1117,7 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
             if not isinstance(variants, list):
                 continue
             option_types: list[str] = []
+            localized_text_array = False
             for index, option in enumerate(variants):
                 if not isinstance(option, (dict, list)):
                     continue
@@ -1123,6 +1127,13 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
                     option,
                     qualifier=f"variant{index}",
                 )
+                if (
+                    name in LOCALIZED_TEXT_UNION_NAMES
+                    and isinstance(option, dict)
+                    and option.get("type") == "array"
+                ):
+                    type_expr = f"Annotated[{type_expr}, AfterValidator(validate_multilang_models)]"
+                    localized_text_array = True
                 option_types.append(type_expr)
             if option_types:
                 # Preserve order while removing duplicates
@@ -1175,6 +1186,12 @@ CommonOther = Annotated[dict[str, AnyXmlElement], AfterValidator(_validate_commo
                 )
                 if any("Literal[" in expr for expr in union_parts):
                     typing_imports.add("Literal")
+                if localized_text_array:
+                    typing_imports.add("Annotated")
+                    self.standard_imports.update({
+                        "from pydantic import AfterValidator",
+                        "from tidas_sdk.core.multilang import validate_multilang_models",
+                    })
                 scalar.typing_imports.update(typing_imports)
                 return scalar
         return None

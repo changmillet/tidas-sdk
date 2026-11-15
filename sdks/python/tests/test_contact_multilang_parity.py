@@ -98,6 +98,24 @@ def test_contact_pydantic_validation_accepts_single_object_multilang_fields() ->
     assert short_name.get_text() == "ZMJ"
 
 
+def test_contact_pydantic_rejects_duplicates_inside_one_declared_field() -> None:
+    payload = deepcopy(_contact_payload())
+    info = payload["contactDataSet"]["contactInformation"]["dataSetInformation"]
+    info["common:name"] = [_localized_text("First name"), _localized_text("Second name")]
+    entity = create_contact(payload)
+    before = entity.to_json()
+
+    assert entity.validate(mode="pydantic") is False
+    error = entity.last_validation_error()
+    assert error is not None
+    duplicate = next(issue for issue in error.errors() if issue["type"] == "duplicate_language_entry")
+    assert duplicate["ctx"] == {"language": "en", "index": 1, "first_index": 0}
+    assert entity.to_json() == before
+
+    info["common:name"][1]["@xml:lang"] = "de"
+    assert create_contact(payload).validate(mode="pydantic") is True
+
+
 def test_contact_pydantic_validation_still_rejects_empty_reference_objects() -> None:
     payload = deepcopy(_contact_payload())
     data_set_information = payload["contactDataSet"]["contactInformation"]["dataSetInformation"]

@@ -15,6 +15,7 @@ from tidas_sdk.core.multilang import MultiLangList
 from datetime import datetime
 from pydantic import AfterValidator
 from tidas_sdk.core.cas_number import validate_cas_number_check_digit
+from tidas_sdk.core.multilang import validate_multilang_models
 
 CHINESE_CHARACTER_PATTERN = re.compile(r'[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]')
 
@@ -154,12 +155,12 @@ class DataTypes(TidasBaseModel):
     pass
 
 # Multi-language annual supply or production volume text with a numeric prefix and unit or context suffix.
-AnnualSupplyOrProductionVolumeMultiLang = list[AnnualSupplyOrProductionVolumeTextItem] | AnnualSupplyOrProductionVolumeTextItem
+AnnualSupplyOrProductionVolumeMultiLang = Annotated[list[AnnualSupplyOrProductionVolumeTextItem], AfterValidator(validate_multilang_models)] | AnnualSupplyOrProductionVolumeTextItem
 # Multi-language string with a maximum length of 500 characters
-StringMultiLang = list[LocalizedText500Item] | LocalizedText500Item
+StringMultiLang = Annotated[list[LocalizedText500Item], AfterValidator(validate_multilang_models)] | LocalizedText500Item
 # Multi-lang short text with a maximum length of 1000 characters.
-STMultiLang = list[LocalizedText1000Item] | LocalizedText1000Item
+STMultiLang = Annotated[list[LocalizedText1000Item], AfterValidator(validate_multilang_models)] | LocalizedText1000Item
 # Multi-lang free text with an unlimited length.
-FTMultiLang = list[LocalizedTextItem] | LocalizedTextItem
+FTMultiLang = Annotated[list[LocalizedTextItem], AfterValidator(validate_multilang_models)] | LocalizedTextItem
 # Represents a reference to another dataset or file. In TIDAS, references must include type, refObjectId, version, uri, and shortDescription.
 GlobalReferenceType = GlobalReferenceTypeVariant0 | list[GlobalReferenceTypeVariant1Item]
