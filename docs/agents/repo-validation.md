@@ -237,3 +237,11 @@ fixture or rendering-immutability boundary. Requalification requires both
 canonical package verifiers, automation contracts and the unchanged 95/75/70
 TypeScript coverage gate. A local distribution copy verifies package bytes and
 archives; only fresh exact-head hosted CI proves the upload/download service.
+
+### Process exchange Flow reference names
+
+Run both canonical package verifiers when changing the public name profile.
+The shared `sdks/typescript/tests/fixtures/process-flow-reference-name.v1.json` fixture
+exercises both public APIs with exact versions, repeated references, multilingual
+and Unicode boundaries, evidence conflicts, and unchanged inputs. Run the
+TypeScript coverage gate in addition to both package verifiers.

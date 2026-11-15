@@ -46,7 +46,7 @@ function isRecord(value: unknown): value is Record<PropertyKey, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-function jsonValuesEqual(left: unknown, right: unknown): boolean {
+export function jsonValuesEqual(left: unknown, right: unknown): boolean {
   if (Object.is(left, right)) {
     return true;
   }
@@ -238,6 +238,25 @@ export function withJsonSchemaUniqueItems<TSchema extends z.ZodType<unknown[]>>(
   return schema.superRefine(addUniqueItemsIssue) as TSchema;
 }
 
+/** Find repeated supported language codes within one declared field. */
+export function duplicateLocalizedLanguages(entries: readonly unknown[]) {
+  const firstByLanguage = new Map<string, number>();
+  const duplicates: Array<{
+    language: string;
+    index: number;
+    firstIndex: number;
+  }> = [];
+  entries.forEach((entry, index) => {
+    const language = isRecord(entry) ? entry['@xml:lang'] : undefined;
+    if (typeof language !== 'string' || !supportedLanguages.has(language))
+      return;
+    const firstIndex = firstByLanguage.get(language);
+    if (firstIndex === undefined) firstByLanguage.set(language, index);
+    else duplicates.push({ language, index, firstIndex });
+  });
+  return duplicates;
+}
+
 /** Enforce the SDK's field-local language rule on a declared localized array. */
 export function withUniqueLocalizedLanguages<
   TSchema extends z.ZodType<readonly { '@xml:lang': string }[]>,
@@ -245,27 +264,11 @@ export function withUniqueLocalizedLanguages<
   return schema.check(
     z.superRefine(
       (entries: readonly unknown[], ctx) => {
-        const firstByLanguage = new Map<string, number>();
-        entries.forEach((entry, index) => {
-          if (
-            typeof entry !== 'object' ||
-            entry === null ||
-            !('@xml:lang' in entry)
-          ) {
-            return;
-          }
-          const language = entry['@xml:lang'];
-          if (
-            typeof language !== 'string' ||
-            !supportedLanguages.has(language)
-          ) {
-            return;
-          }
-          const firstIndex = firstByLanguage.get(language);
-          if (firstIndex === undefined) {
-            firstByLanguage.set(language, index);
-            return;
-          }
+        for (const {
+          language,
+          index,
+          firstIndex,
+        } of duplicateLocalizedLanguages(entries)) {
           ctx.addIssue({
             code: 'custom',
             path: [index, '@xml:lang'],
@@ -276,7 +279,7 @@ export function withUniqueLocalizedLanguages<
               firstIndex,
             },
           });
-        });
+        }
       },
       { when: ({ value }) => Array.isArray(value) }
     )

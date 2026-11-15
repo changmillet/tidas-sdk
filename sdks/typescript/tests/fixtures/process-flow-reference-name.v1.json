@@ -1,0 +1,842 @@
+{
+  "profile": "tidas.process-flow-reference-name.v1",
+  "composition": [
+    {
+      "name": "four ordered parts",
+      "fields": {
+        "baseName": {"@xml:lang": "en", "#text": "Steel"},
+        "treatmentStandardsRoutes": {"@xml:lang": "en", "#text": "hot rolled"},
+        "mixAndLocationTypes": {"@xml:lang": "en", "#text": "production mix"},
+        "flowProperties": {"@xml:lang": "en", "#text": "at plant"}
+      },
+      "description": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}],
+      "codes": []
+    },
+    {
+      "name": "only base with empty optional fields",
+      "fields": {
+        "baseName": {"@xml:lang": "en", "#text": "  Steel\n"},
+        "treatmentStandardsRoutes": [],
+        "mixAndLocationTypes": {"@xml:lang": "en", "#text": " - "},
+        "flowProperties": {"@xml:lang": "en", "#text": "\t"}
+      },
+      "description": [{"@xml:lang": "en", "#text": "Steel"}],
+      "codes": []
+    },
+    {
+      "name": "two languages preserving punctuation and normalizing NFC",
+      "fields": {
+        "baseName": [{"@xml:lang": "zh", "#text": "钢"}, {"@xml:lang": "en", "#text": "Café"}],
+        "treatmentStandardsRoutes": [{"@xml:lang": "en", "#text": "hot; rolled"}, {"@xml:lang": "zh", "#text": "热轧"}]
+      },
+      "description": [{"@xml:lang": "en", "#text": "Café; hot; rolled"}, {"@xml:lang": "zh", "#text": "钢; 热轧"}],
+      "codes": []
+    },
+    {
+      "name": "missing translation",
+      "fields": {
+        "baseName": [{"@xml:lang": "en", "#text": "Steel"}, {"@xml:lang": "zh", "#text": "钢"}],
+        "treatmentStandardsRoutes": {"@xml:lang": "en", "#text": "hot rolled"}
+      },
+      "description": [],
+      "codes": ["flow_name_translation_missing"]
+    },
+    {
+      "name": "foreign segment language without corresponding base",
+      "fields": {
+        "baseName": {"@xml:lang": "en", "#text": "Steel"},
+        "flowProperties": {"@xml:lang": "zh", "#text": "热轧"}
+      },
+      "description": [],
+      "codes": ["flow_name_translation_missing", "flow_name_base_missing"]
+    },
+    {
+      "name": "base placeholder",
+      "fields": {"baseName": {"@xml:lang": "en", "#text": "-"}},
+      "description": [],
+      "codes": ["flow_name_base_missing"]
+    },
+    {
+      "name": "duplicate base language",
+      "fields": {"baseName": [{"@xml:lang": "en", "#text": "Steel"}, {"@xml:lang": "en", "#text": "Iron"}]},
+      "description": [],
+      "codes": ["duplicate_language_entry"]
+    },
+    {
+      "name": "invalid language",
+      "fields": {
+        "baseName": {"@xml:lang": "en", "#text": "Steel"},
+        "treatmentStandardsRoutes": {"@xml:lang": "EN", "#text": "hot rolled"}
+      },
+      "description": [],
+      "codes": ["flow_name_text_invalid"]
+    },
+    {
+      "name": "exact code point limit including separator",
+      "fields": {
+        "baseName": {
+          "@xml:lang": "en",
+          "#text": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀"
+        },
+        "flowProperties": {
+          "@xml:lang": "en",
+          "#text": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "description": [
+        {
+          "@xml:lang": "en",
+          "#text": "😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀😀; bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      ],
+      "codes": []
+    },
+    {
+      "name": "unrepresentable complete name",
+      "fields": {
+        "baseName": {
+          "@xml:lang": "en",
+          "#text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "flowProperties": {
+          "@xml:lang": "en",
+          "#text": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      },
+      "description": [],
+      "codes": ["flow_name_too_long"]
+    }
+  ],
+  "flows": {
+    "product": {
+      "uuid": "11111111-2222-4333-8444-555555555555",
+      "version": "00.00.001",
+      "document": {
+        "flowDataSet": {
+          "flowInformation": {
+            "dataSetInformation": {
+              "common:UUID": "11111111-2222-4333-8444-555555555555",
+              "name": {
+                "baseName": {"@xml:lang": "en", "#text": "Steel"},
+                "treatmentStandardsRoutes": {"@xml:lang": "en", "#text": "hot rolled"},
+                "mixAndLocationTypes": {"@xml:lang": "en", "#text": "production mix"},
+                "flowProperties": {"@xml:lang": "en", "#text": "at plant"}
+              }
+            }
+          },
+          "administrativeInformation": {"publicationAndOwnership": {"common:dataSetVersion": "00.00.001"}},
+          "modellingAndValidation": {"LCIMethod": {"typeOfDataSet": "Product flow"}}
+        }
+      }
+    },
+    "waste": {
+      "uuid": "11111111-2222-4333-8444-555555555555",
+      "version": "00.00.001",
+      "document": {
+        "flowDataSet": {
+          "flowInformation": {
+            "dataSetInformation": {
+              "common:UUID": "11111111-2222-4333-8444-555555555555",
+              "name": {
+                "baseName": {"@xml:lang": "en", "#text": "Steel"},
+                "treatmentStandardsRoutes": {"@xml:lang": "en", "#text": "hot rolled"},
+                "mixAndLocationTypes": {"@xml:lang": "en", "#text": "production mix"},
+                "flowProperties": {"@xml:lang": "en", "#text": "at plant"}
+              }
+            }
+          },
+          "administrativeInformation": {"publicationAndOwnership": {"common:dataSetVersion": "00.00.001"}},
+          "modellingAndValidation": {"LCIMethod": {"typeOfDataSet": "Waste flow"}}
+        }
+      }
+    },
+    "elementary": {
+      "uuid": "11111111-2222-4333-8444-555555555555",
+      "version": "00.00.001",
+      "document": {
+        "flowDataSet": {
+          "flowInformation": {
+            "dataSetInformation": {
+              "common:UUID": "11111111-2222-4333-8444-555555555555",
+              "name": {"baseName": {"@xml:lang": "en", "#text": "Water"}}
+            }
+          },
+          "administrativeInformation": {"publicationAndOwnership": {"common:dataSetVersion": "00.00.001"}},
+          "modellingAndValidation": {"LCIMethod": {"typeOfDataSet": "Elementary flow"}}
+        }
+      }
+    },
+    "other": {
+      "uuid": "11111111-2222-4333-8444-555555555555",
+      "version": "00.00.001",
+      "document": {
+        "flowDataSet": {
+          "flowInformation": {
+            "dataSetInformation": {
+              "common:UUID": "11111111-2222-4333-8444-555555555555",
+              "name": {
+                "baseName": {"@xml:lang": "en", "#text": "Steel"},
+                "treatmentStandardsRoutes": {"@xml:lang": "en", "#text": "hot rolled"},
+                "mixAndLocationTypes": {"@xml:lang": "en", "#text": "production mix"},
+                "flowProperties": {"@xml:lang": "en", "#text": "at plant"}
+              }
+            }
+          },
+          "administrativeInformation": {"publicationAndOwnership": {"common:dataSetVersion": "00.00.001"}},
+          "modellingAndValidation": {"LCIMethod": {"typeOfDataSet": "Other flow"}}
+        }
+      }
+    },
+    "later": {
+      "uuid": "11111111-2222-4333-8444-555555555555",
+      "version": "00.00.002",
+      "document": {
+        "flowDataSet": {
+          "flowInformation": {
+            "dataSetInformation": {
+              "common:UUID": "11111111-2222-4333-8444-555555555555",
+              "name": {"baseName": {"@xml:lang": "en", "#text": "Later Steel"}}
+            }
+          },
+          "administrativeInformation": {"publicationAndOwnership": {"common:dataSetVersion": "00.00.002"}},
+          "modellingAndValidation": {"LCIMethod": {"typeOfDataSet": "Product flow"}}
+        }
+      }
+    },
+    "bad_uuid": {
+      "uuid": "11111111-2222-4333-8444-555555555555",
+      "version": "00.00.001",
+      "document": {
+        "flowDataSet": {
+          "flowInformation": {
+            "dataSetInformation": {
+              "common:UUID": "22222222-2222-4333-8444-555555555555",
+              "name": {
+                "baseName": {"@xml:lang": "en", "#text": "Steel"},
+                "treatmentStandardsRoutes": {"@xml:lang": "en", "#text": "hot rolled"},
+                "mixAndLocationTypes": {"@xml:lang": "en", "#text": "production mix"},
+                "flowProperties": {"@xml:lang": "en", "#text": "at plant"}
+              }
+            }
+          },
+          "administrativeInformation": {"publicationAndOwnership": {"common:dataSetVersion": "00.00.001"}},
+          "modellingAndValidation": {"LCIMethod": {"typeOfDataSet": "Product flow"}}
+        }
+      }
+    },
+    "bad_version": {
+      "uuid": "11111111-2222-4333-8444-555555555555",
+      "version": "00.00.001",
+      "document": {
+        "flowDataSet": {
+          "flowInformation": {
+            "dataSetInformation": {
+              "common:UUID": "11111111-2222-4333-8444-555555555555",
+              "name": {
+                "baseName": {"@xml:lang": "en", "#text": "Steel"},
+                "treatmentStandardsRoutes": {"@xml:lang": "en", "#text": "hot rolled"},
+                "mixAndLocationTypes": {"@xml:lang": "en", "#text": "production mix"},
+                "flowProperties": {"@xml:lang": "en", "#text": "at plant"}
+              }
+            }
+          },
+          "administrativeInformation": {"publicationAndOwnership": {"common:dataSetVersion": "00.00.002"}},
+          "modellingAndValidation": {"LCIMethod": {"typeOfDataSet": "Product flow"}}
+        }
+      }
+    },
+    "different_document": {
+      "uuid": "11111111-2222-4333-8444-555555555555",
+      "version": "00.00.001",
+      "document": {
+        "flowDataSet": {
+          "flowInformation": {
+            "dataSetInformation": {
+              "common:UUID": "11111111-2222-4333-8444-555555555555",
+              "name": {
+                "baseName": {"@xml:lang": "en", "#text": "Steel"},
+                "treatmentStandardsRoutes": {"@xml:lang": "en", "#text": "hot rolled"},
+                "mixAndLocationTypes": {"@xml:lang": "en", "#text": "production mix"},
+                "flowProperties": {"@xml:lang": "en", "#text": "at plant"}
+              }
+            }
+          },
+          "administrativeInformation": {"publicationAndOwnership": {"common:dataSetVersion": "00.00.001"}},
+          "modellingAndValidation": {"LCIMethod": {"typeOfDataSet": "Other flow"}}
+        }
+      }
+    },
+    "missing_translation": {
+      "uuid": "11111111-2222-4333-8444-555555555555",
+      "version": "00.00.001",
+      "document": {
+        "flowDataSet": {
+          "flowInformation": {
+            "dataSetInformation": {
+              "common:UUID": "11111111-2222-4333-8444-555555555555",
+              "name": {
+                "baseName": [{"@xml:lang": "en", "#text": "Steel"}, {"@xml:lang": "zh", "#text": "钢"}],
+                "flowProperties": {"@xml:lang": "en", "#text": "hot rolled"}
+              }
+            }
+          },
+          "administrativeInformation": {"publicationAndOwnership": {"common:dataSetVersion": "00.00.001"}},
+          "modellingAndValidation": {"LCIMethod": {"typeOfDataSet": "Product flow"}}
+        }
+      }
+    },
+    "two_languages": {
+      "uuid": "11111111-2222-4333-8444-555555555555",
+      "version": "00.00.001",
+      "document": {
+        "flowDataSet": {
+          "flowInformation": {
+            "dataSetInformation": {
+              "common:UUID": "11111111-2222-4333-8444-555555555555",
+              "name": {
+                "baseName": [{"@xml:lang": "en", "#text": "Steel"}, {"@xml:lang": "zh", "#text": "钢"}],
+                "treatmentStandardsRoutes": [{"@xml:lang": "en", "#text": "hot rolled"}, {"@xml:lang": "zh", "#text": "热轧"}]
+              }
+            }
+          },
+          "administrativeInformation": {"publicationAndOwnership": {"common:dataSetVersion": "00.00.001"}},
+          "modellingAndValidation": {"LCIMethod": {"typeOfDataSet": "Product flow"}}
+        }
+      }
+    },
+    "overflow": {
+      "uuid": "11111111-2222-4333-8444-555555555555",
+      "version": "00.00.001",
+      "document": {
+        "flowDataSet": {
+          "flowInformation": {
+            "dataSetInformation": {
+              "common:UUID": "11111111-2222-4333-8444-555555555555",
+              "name": {
+                "baseName": {
+                  "@xml:lang": "en",
+                  "#text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                },
+                "flowProperties": {
+                  "@xml:lang": "en",
+                  "#text": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+                }
+              }
+            }
+          },
+          "administrativeInformation": {"publicationAndOwnership": {"common:dataSetVersion": "00.00.001"}},
+          "modellingAndValidation": {"LCIMethod": {"typeOfDataSet": "Product flow"}}
+        }
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "four segment input",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": [
+              {
+                "@dataSetInternalID": "1",
+                "exchangeDirection": "Input",
+                "referenceToFlowDataSet": {
+                  "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                  "@version": "00.00.001",
+                  "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "evidence": ["product"],
+      "statuses": ["passed"],
+      "codes": []
+    },
+    {
+      "name": "waste output",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": [
+              {
+                "@dataSetInternalID": "1",
+                "exchangeDirection": "Output",
+                "referenceToFlowDataSet": {
+                  "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                  "@version": "00.00.001",
+                  "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "evidence": ["waste"],
+      "statuses": ["passed"],
+      "codes": []
+    },
+    {
+      "name": "other input",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": [
+              {
+                "@dataSetInternalID": "1",
+                "exchangeDirection": "Input",
+                "referenceToFlowDataSet": {
+                  "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                  "@version": "00.00.001",
+                  "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "evidence": ["other"],
+      "statuses": ["passed"],
+      "codes": []
+    },
+    {
+      "name": "elementary singleton base only",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": {"@xml:lang": "en", "#text": "Water"}
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["elementary"],
+      "statuses": ["passed"],
+      "codes": []
+    },
+    {
+      "name": "same Flow second occurrence description missing qualifiers",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": [
+              {
+                "@dataSetInternalID": "1",
+                "exchangeDirection": "Input",
+                "referenceToFlowDataSet": {
+                  "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                  "@version": "00.00.001",
+                  "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+                }
+              },
+              {
+                "@dataSetInternalID": "2",
+                "exchangeDirection": "Output",
+                "referenceToFlowDataSet": {
+                  "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                  "@version": "00.00.001",
+                  "common:shortDescription": {"@xml:lang": "en", "#text": "Steel"}
+                }
+              }
+            ]
+          }
+        }
+      },
+      "evidence": ["product"],
+      "statuses": ["passed", "invalid"],
+      "codes": ["flow_reference_description_mismatch"],
+      "paths": [["processDataSet", "exchanges", "exchange", 1, "referenceToFlowDataSet", "common:shortDescription"]]
+    },
+    {
+      "name": "arbitrary description",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": {"@xml:lang": "en", "#text": "Iron"}
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["product"],
+      "statuses": ["invalid"],
+      "codes": ["flow_reference_description_mismatch"]
+    },
+    {
+      "name": "repeated references inside one exchange",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": [
+                {
+                  "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                  "@version": "00.00.001",
+                  "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+                },
+                {
+                  "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                  "@version": "00.00.001",
+                  "common:shortDescription": {"@xml:lang": "en", "#text": "Steel"}
+                }
+              ]
+            }
+          }
+        }
+      },
+      "evidence": ["product"],
+      "statuses": ["passed", "invalid"],
+      "codes": ["flow_reference_description_mismatch"],
+      "paths": [["processDataSet", "exchanges", "exchange", "referenceToFlowDataSet", 1, "common:shortDescription"]]
+    },
+    {
+      "name": "two exact versions",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": [
+              {
+                "@dataSetInternalID": "1",
+                "exchangeDirection": "Input",
+                "referenceToFlowDataSet": {
+                  "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                  "@version": "00.00.001",
+                  "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+                }
+              },
+              {
+                "@dataSetInternalID": "2",
+                "exchangeDirection": "Input",
+                "referenceToFlowDataSet": {
+                  "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                  "@version": "00.00.002",
+                  "common:shortDescription": {"@xml:lang": "en", "#text": "Later Steel"}
+                }
+              }
+            ]
+          }
+        }
+      },
+      "evidence": ["product", "later"],
+      "statuses": ["passed", "passed"],
+      "codes": []
+    },
+    {
+      "name": "canonical later name cannot describe earlier reference",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": {"@xml:lang": "en", "#text": "Later Steel"}
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["product", "later"],
+      "statuses": ["invalid"],
+      "codes": ["flow_reference_description_mismatch"]
+    },
+    {
+      "name": "wrong exact version supplied",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["later"],
+      "statuses": ["unresolved"],
+      "codes": ["flow_reference_version_mismatch"]
+    },
+    {
+      "name": "wrong embedded version",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["bad_version"],
+      "statuses": ["unresolved"],
+      "codes": ["flow_reference_version_mismatch"]
+    },
+    {
+      "name": "wrong embedded identity",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["bad_uuid"],
+      "statuses": ["unresolved"],
+      "codes": ["flow_reference_evidence_invalid"]
+    },
+    {
+      "name": "never read current version implicitly",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+              }
+            }
+          }
+        }
+      },
+      "evidence": [],
+      "statuses": ["unresolved"],
+      "codes": ["flow_reference_evidence_unavailable"]
+    },
+    {
+      "name": "conflict outside name still changes evidence",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["product", "different_document"],
+      "statuses": ["unresolved"],
+      "codes": ["flow_reference_evidence_conflict"]
+    },
+    {
+      "name": "identical duplicate evidence",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["product", "product"],
+      "statuses": ["passed"],
+      "codes": []
+    },
+    {
+      "name": "incomplete identity",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "",
+                "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["product"],
+      "statuses": ["invalid"],
+      "codes": ["flow_reference_inexact"]
+    },
+    {
+      "name": "missing translation in exact evidence",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["missing_translation"],
+      "statuses": ["unresolved"],
+      "codes": ["flow_name_translation_missing"]
+    },
+    {
+      "name": "unrepresentable full name",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"}]
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["overflow"],
+      "statuses": ["unresolved"],
+      "codes": ["flow_name_too_long"]
+    },
+    {
+      "name": "missing expected language and unrelated extra language",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": [{"@xml:lang": "en", "#text": "Steel; hot rolled"}, {"@xml:lang": "fr", "#text": "Acier"}]
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["two_languages"],
+      "statuses": ["invalid"],
+      "codes": ["flow_reference_description_mismatch", "flow_reference_description_mismatch"]
+    },
+    {
+      "name": "language order is irrelevant",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": [{"@xml:lang": "zh", "#text": "钢; 热轧"}, {"@xml:lang": "en", "#text": "Steel; hot rolled"}]
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["two_languages"],
+      "statuses": ["passed"],
+      "codes": []
+    },
+    {
+      "name": "duplicate description language retains field index",
+      "process": {
+        "processDataSet": {
+          "exchanges": {
+            "exchange": {
+              "@dataSetInternalID": "1",
+              "exchangeDirection": "Input",
+              "referenceToFlowDataSet": {
+                "@refObjectId": "11111111-2222-4333-8444-555555555555",
+                "@version": "00.00.001",
+                "common:shortDescription": [
+                  {"@xml:lang": "en", "#text": "Steel; hot rolled; production mix; at plant"},
+                  {"@xml:lang": "en", "#text": "Steel"}
+                ]
+              }
+            }
+          }
+        }
+      },
+      "evidence": ["product"],
+      "statuses": ["invalid"],
+      "codes": ["duplicate_language_entry"],
+      "paths": [
+        [
+          "processDataSet",
+          "exchanges",
+          "exchange",
+          "referenceToFlowDataSet",
+          "common:shortDescription",
+          1,
+          "@xml:lang"
+        ]
+      ]
+    },
+    {
+      "name": "empty exchanges",
+      "process": {"processDataSet": {"exchanges": {"exchange": []}}},
+      "evidence": [],
+      "statuses": ["not-applicable"],
+      "codes": []
+    },
+    {
+      "name": "missing reference in exchange",
+      "process": {"processDataSet": {"exchanges": {"exchange": [{}]}}},
+      "evidence": [],
+      "statuses": ["invalid"],
+      "codes": ["flow_reference_inexact"],
+      "paths": [["processDataSet", "exchanges", "exchange", 0, "referenceToFlowDataSet"]]
+    }
+  ]
+}

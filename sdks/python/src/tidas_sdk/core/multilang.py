@@ -5,6 +5,7 @@ Utilities for handling TIDAS multi-language text arrays.
 from __future__ import annotations
 
 import re
+from collections.abc import Iterator
 from typing import Any, Iterable, MutableSequence, Protocol, TypedDict, TypeVar
 
 from pydantic_core import PydanticCustomError
@@ -314,22 +315,26 @@ def validate_multilang_models(values: list[_LocalizedTextModelT]) -> list[_Local
     return values
 
 
-def _validate_unique_languages(languages: Iterable[str | None]) -> None:
+def duplicate_localized_languages(
+    languages: Iterable[str | None],
+) -> Iterator[tuple[str, int, int]]:
     first_by_language: dict[str, int] = {}
     for index, language in enumerate(languages):
         if not isinstance(language, str) or language not in TIDAS_LANGUAGE_CODES:
             continue
         if language in first_by_language:
-            raise PydanticCustomError(
-                "duplicate_language_entry",
-                "Language {language} at index {index} already occurs at index {first_index}",
-                {
-                    "language": language,
-                    "index": index,
-                    "first_index": first_by_language[language],
-                },
-            )
-        first_by_language[language] = index
+            yield language, index, first_by_language[language]
+        else:
+            first_by_language[language] = index
+
+
+def _validate_unique_languages(languages: Iterable[str | None]) -> None:
+    for language, index, first_index in duplicate_localized_languages(languages):
+        raise PydanticCustomError(
+            "duplicate_language_entry",
+            "Language {language} at index {index} already occurs at index {first_index}",
+            {"language": language, "index": index, "first_index": first_index},
+        )
 
 
 def wrap_multilang(value: Any) -> Any:

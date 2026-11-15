@@ -131,3 +131,28 @@ uv run pytest
 - `scripts/`: Utility scripts for code generation and maintenance
 
 For questions or contributions, open an issue or pull request at https://github.com/tiangong-lca/tidas-sdk.
+
+### Process exchange Flow reference names
+
+Python 0.5.0 exposes `compose_flow_name`, `collect_process_flow_references`
+and `analyze_process_flow_references` from `tidas_sdk` and `tidas_sdk.core`.
+They accept raw TIDAS dictionaries with JSON field names.
+
+```python
+from tidas_sdk import analyze_process_flow_references, compose_flow_name
+
+candidate = compose_flow_name(
+    flow["flowDataSet"]["flowInformation"]["dataSetInformation"]["name"]
+)
+result = analyze_process_flow_references(
+    process, flows=[{"uuid": flow_uuid, "version": flow_version, "document": flow}]
+)
+```
+
+The analyzer and composer implement the
+[`tidas.process-flow-reference-name.v1` policy](../typescript/README.md#process-exchange-flow-reference-names)
+shared with TypeScript. The four fields are joined in each language with
+semicolon and space. Missing translations and names over 1000 Unicode code
+points are reported explicitly. Use the results alongside structural
+validation. The caller provides the exact Flow document and the functions
+leave the input dictionaries intact.
