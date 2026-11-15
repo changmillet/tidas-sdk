@@ -86,7 +86,12 @@ function issue(
 
 function normalizeText(text: string) {
   // Use exactly XML whitespace in both runtimes. Preserve inner text and punctuation.
-  return text.replace(/^[ \t\r\n]+|[ \t\r\n]+$/g, '').normalize('NFC');
+  const whitespace = ' \t\r\n';
+  let start = 0;
+  let end = text.length;
+  while (start < end && whitespace.includes(text.charAt(start))) start++;
+  while (end > start && whitespace.includes(text.charAt(end - 1))) end--;
+  return text.slice(start, end).normalize('NFC');
 }
 
 function readLocalized(
