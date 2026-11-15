@@ -105,10 +105,16 @@ const parsed = parseWithZod(jsonText, ContactSchema);
 需要稳定的程序化错误处理时，应优先使用 `validateEnhanced()` 返回的
 `validationIssues`，不要解析 Zod 的自然语言消息。
 
+## TypeScript 0.7 多语言校验
+
+从 0.7.0 起，SDK 拒绝同一多语言字段内重复的 `@xml:lang`，并用
+`duplicate_language_entry` 指出重复项。迁移旧数据时，每种语言保留一条，
+在字段长度限制内保留原有段落。固定的 Draft-07 规范仍定义整项唯一。
+
 ## TypeScript 0.6 验证迁移
 
 0.6.0 将运行时 Zod 精确固定为 `4.6.7`，使字符串长度和已启用的 date-time
-验证遵循锁定的公共 Draft-07 规范；Python 仍为 0.3.0，规范和工具源身份不变。
+验证遵循锁定的公共 Draft-07 规范。当时的 Python 版本为 0.3.0，沿用固定的规范和工具来源。
 
 字符串上限及诊断 `params.actualLength` 按 Unicode 码点计数：251 个 emoji
 在 maxLength 500 下通过，501 个 emoji 拒绝且报告 actualLength 501。

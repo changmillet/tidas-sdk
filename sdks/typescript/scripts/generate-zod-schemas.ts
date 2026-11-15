@@ -138,7 +138,7 @@ async function postProcessZodSchema(schemaFile: string): Promise<void> {
     manualOptimizations = applyCASNumberSchemaOverrides(manualOptimizations);
 
     manualOptimizations = manualOptimizations.replace(
-      /export const StringMultiLangSchema = z\.union\(\[[\s\S]*?\]\);/,
+      /export const StringMultiLangSchema =/,
       `const addRequiredMultiLangIssue = (
   value: unknown,
   ctx: z.RefinementCtx
@@ -151,36 +151,16 @@ async function postProcessZodSchema(schemaFile: string): Promise<void> {
   }
 };
 
-export const StringMultiLangSchema = z.union([
-  z.array(LocalizedText500ItemSchema),
-  LocalizedText500ItemSchema,
-]);
-
-export const RequiredStringMultiLangSchema =
-  StringMultiLangSchema.superRefine(addRequiredMultiLangIssue);`
+export const StringMultiLangSchema =`
     );
 
-    manualOptimizations = manualOptimizations.replace(
-      /export const STMultiLangSchema = z\.union\(\[[\s\S]*?\]\);/,
-      `export const STMultiLangSchema = z.union([
-  z.array(LocalizedText1000ItemSchema),
-  LocalizedText1000ItemSchema,
-]);
-
-export const RequiredSTMultiLangSchema =
-  STMultiLangSchema.superRefine(addRequiredMultiLangIssue);`
-    );
-
-    manualOptimizations = manualOptimizations.replace(
-      /export const FTMultiLangSchema = z\.union\(\[[\s\S]*?\]\);/,
-      `export const FTMultiLangSchema = z.union([
-  z.array(LocalizedTextItemSchema),
-  LocalizedTextItemSchema,
-]);
-
-export const RequiredFTMultiLangSchema =
-  FTMultiLangSchema.superRefine(addRequiredMultiLangIssue);`
-    );
+    for (const name of ['StringMultiLang', 'STMultiLang', 'FTMultiLang']) {
+      const declaration = new RegExp(`export const ${name}Schema = [^;]+;`);
+      manualOptimizations = manualOptimizations.replace(
+        declaration,
+        `$&\n\nexport const Required${name}Schema =\n  ${name}Schema.superRefine(addRequiredMultiLangIssue);`
+      );
+    }
 
     manualOptimizations = applyCommonOtherSchemaOverrides(manualOptimizations);
 

@@ -49,6 +49,7 @@ export type ValidationIssueCode =
   | 'unrecognized_keys'
   | 'invalid_union'
   | 'localized_text_language_not_in_tidas_enum'
+  | 'duplicate_language_entry'
   | 'localized_text_zh_must_include_chinese_character'
   | 'localized_text_en_must_not_contain_chinese_character'
   | 'cas_number_checksum_error'
@@ -105,6 +106,7 @@ const LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE =
 const CAS_NUMBER_CHECKSUM_ERROR_CODE = 'cas_number_checksum_error';
 
 const KNOWN_CUSTOM_VALIDATION_CODES = new Set<ValidationIssueCode>([
+  'duplicate_language_entry',
   LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE,
   LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE,
   CAS_NUMBER_CHECKSUM_ERROR_CODE,
@@ -352,6 +354,11 @@ export class ValidationUtils {
               keys: issue.keys.join(', '),
             }
           : undefined;
+      case 'duplicate_language_entry':
+        return {
+          language: issue.params?.language,
+          firstIndex: issue.params?.firstIndex,
+        };
       default:
         return undefined;
     }
@@ -381,9 +388,45 @@ export class ValidationUtils {
     sourceData?: unknown,
     severity: ValidationIssueSeverity = 'error'
   ): NormalizedValidationIssue[] {
-    return issues.map((issue) =>
+    const normalized = issues.map((issue) =>
       this.normalizeIssue(issue, sourceData, severity)
     );
+    const collectNestedDuplicates = (
+      branches: z.core.$ZodIssue[][],
+      parent: PropertyKey[]
+    ): void => {
+      for (const issue of branches.flat()) {
+        const path = [...parent, ...issue.path];
+        if (
+          issue.code === 'custom' &&
+          issue.params?.validationCode === 'duplicate_language_entry'
+        ) {
+          const duplicate = this.normalizeIssue(
+            { ...issue, path },
+            sourceData,
+            severity
+          );
+          if (
+            !normalized.some(
+              (item) =>
+                item.code === duplicate.code &&
+                JSON.stringify(item.path) === JSON.stringify(duplicate.path)
+            )
+          ) {
+            normalized.push(duplicate);
+          }
+        }
+        if (issue.code === 'invalid_union') {
+          collectNestedDuplicates(issue.errors, path);
+        }
+      }
+    };
+    for (const issue of issues) {
+      if (issue.code === 'invalid_union') {
+        collectNestedDuplicates(issue.errors, issue.path);
+      }
+    }
+    return normalized;
   }
 
   /**

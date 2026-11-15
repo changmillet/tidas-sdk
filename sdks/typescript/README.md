@@ -109,11 +109,19 @@ For stable programmatic error handling, entity callers should prefer
 `validateEnhanced()` and consume normalized `validationIssues` rather than
 parsing Zod message text.
 
+## TypeScript 0.7 multilingual validation
+
+Version 0.7.0 rejects repeated `@xml:lang` values within a declared multilingual
+field. The `duplicate_language_entry` diagnostic points to the repeated item.
+For existing data, preserve the original paragraphs in one entry per language
+and respect the field's length limit. The pinned Draft-07 assets continue to
+define whole-item uniqueness.
+
 ## TypeScript 0.6 validation migration
 
 Version 0.6.0 pins runtime `zod` to exact `4.6.7` and aligns native string bounds
 and asserted date-time validation with the locked public Draft-07 specification.
-Python remains 0.3.0; the immutable specification/tools inputs are unchanged.
+That release kept Python at 0.3.0 and used the same immutable specification and toolkit inputs.
 
 | Input or diagnostic | Frozen Zod 4.4.3 baseline | Qualified 0.6.0 / Zod 4.6.7 |
 | --- | --- | --- |

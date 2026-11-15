@@ -26,8 +26,8 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-10-18
-lastReviewedCommit: 8849b1deb335cb326a3cd94083c59de71988ffc0
+lastReviewedAt: 2026-11-15
+lastReviewedCommit: dc4d2d0d77f4f9970be7d2b8a01639ecc218f971
 lastReviewedNote: "Reviewed SDK #171: TypeScript 0.6.0/exact Zod 4.6.7 prepares public-spec code-point/seconds validation and matching string diagnostics; Python/upstream assets, overlays, 95/75/70 gates and release automation are unchanged. Main merge/publication authorization remains separate."
 related:
   - ../../AGENTS.md
@@ -100,6 +100,7 @@ It also owns the stable validation contract that downstream apps consume:
 - `sdks/typescript/scripts/json-schema-to-zod.ts` renders the locked upstream JSON Schema AST directly, without the TypeScript Compiler API or an intermediate generated interface
 - `sdks/typescript/scripts/generate-zod-schemas.ts` applies the small named domain overlays for custom validation codes, recursive `common:other`, CAS checks, required localized text, and the Flow name condition
 - `sdks/typescript/src/core/validation/json-schema.ts` supplies browser/Node-compatible oneOf, conditional, dependency, tuple, and deep-unique semantics used by generated modules
+- The renderer applies the SDK language-uniqueness overlay at the four localized array definitions in the locked data-types schema. Required variants reuse those arrays and their original whole-item uniqueness constraint. Python applies the field-local rule through Pydantic `MultiLangList` fields and generated localized list aliases.
 - unsupported structural schema shapes fail generation; there is no permissive fallback schema
 - `sdks/typescript/scripts/verify-zod-generation-parity.ts` compares a candidate generator against a previously built baseline with stable success and issue code/path signatures
 - `sdks/typescript/src/core/config/ValidationConfig.ts` normalizes raw Zod issues into the `validationIssues` payload returned by `validateEnhanced()`

@@ -31,8 +31,8 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-10-18
-lastReviewedCommit: 8849b1deb335cb326a3cd94083c59de71988ffc0
+lastReviewedAt: 2026-11-15
+lastReviewedCommit: dc4d2d0d77f4f9970be7d2b8a01639ecc218f971
 lastReviewedNote: "Reviewed SDK #171: TypeScript 0.6.0/exact Zod 4.6.7 prepares public-spec code-point/seconds validation and matching string diagnostics; Python/upstream assets, overlays, 95/75/70 gates and release automation are unchanged. Main merge/publication authorization remains separate."
 related:
   - .docpact/config.yaml
@@ -84,7 +84,7 @@ Read in this order:
 - stable path groups, upstream handoffs, and release topology live in `docs/agents/repo-architecture.md`
 - repo-local documentation maintenance is enforced locally by the pre-push docpact gate; `.github/workflows/ai-doc-lint.yml` is manual-dispatch fallback
 - the main routing intents are `typescript-sdk`, `validation-contract`, `python-sdk`, `generation-and-release`, `upstream-refresh`, `release-setup`, `proof`, `repo-docs`, and `root-integration`
-- TypeScript validation normalization is owned by `sdks/typescript/src/core/config/ValidationConfig.ts`, while schema-level custom issue codes for generated localized-text checks are injected from `sdks/typescript/scripts/generate-zod-schemas.ts` into committed schema output under `sdks/typescript/src/schemas/**`
+- TypeScript validation normalization is owned by `sdks/typescript/src/core/config/ValidationConfig.ts`. Generated localized-text validators use named checks with stable codes. The renderer wires list-local language uniqueness into the four declared localized arrays, alongside the pinned schema's whole-item uniqueness.
 
 ## Minimal Execution Facts
 

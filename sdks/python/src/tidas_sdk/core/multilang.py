@@ -5,7 +5,9 @@ Utilities for handling TIDAS multi-language text arrays.
 from __future__ import annotations
 
 import re
-from typing import Any, Iterable, MutableSequence, TypedDict
+from typing import Any, Iterable, MutableSequence, Protocol, TypedDict, TypeVar
+
+from pydantic_core import PydanticCustomError
 
 MultiLangItem = TypedDict(
     "MultiLangItem",
@@ -291,8 +293,43 @@ def validate_multilang_item(value: MultiLangItem) -> None:
 
 
 def validate_multilang_entries(values: Iterable[MultiLangItem]) -> None:
-    for value in values:
-        validate_multilang_item(value)
+    def languages() -> Iterable[str | None]:
+        for value in values:
+            validate_multilang_item(value)
+            yield value.get("@xml:lang")
+
+    _validate_unique_languages(languages())
+
+
+class _LocalizedTextModel(Protocol):
+    @property
+    def xml_lang(self) -> str: ...
+
+
+_LocalizedTextModelT = TypeVar("_LocalizedTextModelT", bound=_LocalizedTextModel)
+
+
+def validate_multilang_models(values: list[_LocalizedTextModelT]) -> list[_LocalizedTextModelT]:
+    _validate_unique_languages(value.xml_lang for value in values)
+    return values
+
+
+def _validate_unique_languages(languages: Iterable[str | None]) -> None:
+    first_by_language: dict[str, int] = {}
+    for index, language in enumerate(languages):
+        if not isinstance(language, str) or language not in TIDAS_LANGUAGE_CODES:
+            continue
+        if language in first_by_language:
+            raise PydanticCustomError(
+                "duplicate_language_entry",
+                "Language {language} at index {index} already occurs at index {first_index}",
+                {
+                    "language": language,
+                    "index": index,
+                    "first_index": first_by_language[language],
+                },
+            )
+        first_by_language[language] = index
 
 
 def wrap_multilang(value: Any) -> Any:

@@ -85,6 +85,11 @@ print(name_list.get_text("en"))
 
 ### Validation and export
 
+Version 0.4.0 rejects repeated languages within a declared multilingual field
+in Pydantic validation. Preserve the original paragraphs in one entry per
+language when migrating existing data. Raw JSON Schema validation applies
+the pinned Draft-07 whole-item uniqueness rule.
+
 ```python
 is_valid = process.validate()          # Pydantic (and optional JSON Schema) validation
 json_payload = process.to_json()       # ILCD‑compatible dict

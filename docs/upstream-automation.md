@@ -19,8 +19,8 @@ checkPaths:
   - .nvmrc
   - package.json
   - .docpact/config.yaml
-lastReviewedAt: 2026-10-18
-lastReviewedCommit: 8849b1deb335cb326a3cd94083c59de71988ffc0
+lastReviewedAt: 2026-11-15
+lastReviewedCommit: dc4d2d0d77f4f9970be7d2b8a01639ecc218f971
 lastReviewedNote: "Reviewed SDK #171: TypeScript 0.6.0/exact Zod 4.6.7 prepares public-spec code-point/seconds validation and matching string diagnostics; Python/upstream assets, overlays, 95/75/70 gates and release automation are unchanged. Main merge/publication authorization remains separate."
 related:
   - ../AGENTS.md
@@ -207,7 +207,7 @@ Validation-contract safeguard for TypeScript refreshes:
 
 - require the frozen pnpm 11.24.0 workspace install on Node 24.19.0 and toolchain contracts to prove every resolved TypeScript compiler is 7.x and the packed SDK carries no compiler or generator tooling
 - render Zod modules directly from the asset-lock-selected JSON Schema directory; do not restore an intermediate TypeScript parser or permissive fallback generator
-- when regeneration touches localized-text schemas or validation helpers, keep the post-processing that injects `params.validationCode` into custom localized-text issues
+- when regeneration touches localized-text schemas or validation helpers, preserve whole-item `uniqueItems` and the localized array overlay. Keep `params.validationCode` on custom localized-text diagnostics
 - when Flow schemas contain cross-field `if` / `then` conditions, keep the generated Zod/Pydantic type-aware validator post-processing
 - confirm the committed TypeScript package still normalizes raw Zod issues into stable `validationIssues` codes for downstream consumers
 - for generator implementation changes, compare the candidate against a pre-change baseline with `pnpm --filter @tiangong-lca/tidas-sdk verify:schema-generation-parity` before replacing the baseline build
