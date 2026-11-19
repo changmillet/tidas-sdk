@@ -501,8 +501,8 @@ class PnpmWorkflowContractTests(unittest.TestCase):
             with self.subTest(workflow=name):
                 raw = self.workflow_text(name)
                 self.assertIn(
-                    "uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 "
-                    "# v3.1.1",
+                    "uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e "
+                    "# v3.1.2",
                     raw,
                 )
                 self.assertIn("runtime: node@24.19.0", raw)
