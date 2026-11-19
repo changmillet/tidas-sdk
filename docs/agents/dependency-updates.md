@@ -15,9 +15,9 @@ checkPaths:
   - .github/dependabot.yml
   - .github/workflows/ci.yml
   - docs/agents/dependency-updates.md
-lastReviewedAt: 2026-10-26
-lastReviewedCommit: 78b9f18f081143b07d25cb39bf3660aa42ad9d4c
-lastReviewedNote: "SDK #174: reviewed the exact @types/node >=25.0.0 ceiling on the root pnpm updater covering SDK and examples. Node 24 LTS updates remain eligible; runtime/source/package pins, unrelated updates, canonical verification and publication authority are unchanged. Hosted activation remains separate."
+lastReviewedAt: 2026-11-19
+lastReviewedCommit: 60567cfdd0e66ddeb66b67ea00b379630cd78431
+lastReviewedNote: "SDK #186. Reviewed the four grouped Actions against the seven-day cooldown and SDK package qualification policy."
 related:
   - ../../AGENTS.md
   - ./repo-validation.md

@@ -19,9 +19,9 @@ checkPaths:
   - .nvmrc
   - package.json
   - .docpact/config.yaml
-lastReviewedAt: 2026-11-15
-lastReviewedCommit: 261238ea65e82387774490482da99ece9318c128
-lastReviewedNote: "SDK #183: reviewed the new Flow reference name profile, shared TypeScript and Python conformance fixture and additive package releases. The existing tag and package verification workflows apply."
+lastReviewedAt: 2026-11-19
+lastReviewedCommit: 60567cfdd0e66ddeb66b67ea00b379630cd78431
+lastReviewedNote: "SDK #186. Reviewed the pinned release-preparation action, Git ref handling, allowed paths and existing token scope."
 related:
   - ../AGENTS.md
   - ../.docpact/config.yaml
