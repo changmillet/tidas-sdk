@@ -20,9 +20,9 @@ checkPaths:
   - sdks/python/**
   - scripts/ci/**
   - .nvmrc
-lastReviewedAt: 2026-10-18
-lastReviewedCommit: 3c0b7eb4fab554418f7e71620146e65366a9d246
-lastReviewedNote: "Reviewed SDK #168 after composing delivered #169: exact Actions pins and real Python artifact transfer retain the public Model/Process tests and 95/75/70 coverage gates; package graph, versions, runtime/source identities and release authority are unchanged."
+lastReviewedAt: 2026-11-19
+lastReviewedCommit: 60567cfdd0e66ddeb66b67ea00b379630cd78431
+lastReviewedNote: "SDK #186. Reviewed the four workflow Action updates and exact pnpm/setup assertion across CI, upstream sync, tagging and package publishing."
 ---
 
 # TIDAS SDKs

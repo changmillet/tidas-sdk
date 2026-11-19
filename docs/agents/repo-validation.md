@@ -28,9 +28,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-11-15
-lastReviewedCommit: dc4d2d0d77f4f9970be7d2b8a01639ecc218f971
-lastReviewedNote: "Reviewed SDK #171: TypeScript 0.6.0/exact Zod 4.6.7 prepares public-spec code-point/seconds validation and matching string diagnostics; Python/upstream assets, overlays, 95/75/70 gates and release automation are unchanged. Main merge/publication authorization remains separate."
+lastReviewedAt: 2026-11-19
+lastReviewedCommit: 60567cfdd0e66ddeb66b67ea00b379630cd78431
+lastReviewedNote: "SDK #186. Reviewed the four workflow Action updates and exact pnpm/setup assertion across CI, upstream sync, tagging and package publishing."
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml
