@@ -31,9 +31,9 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-11-19
-lastReviewedCommit: 60567cfdd0e66ddeb66b67ea00b379630cd78431
-lastReviewedNote: "SDK #186. Reviewed the four workflow Action updates and exact pnpm/setup assertion across CI, upstream sync, tagging and package publishing."
+lastReviewedAt: 2026-11-20
+lastReviewedCommit: fcd0c66a1d5f4b1fc45c2ef6a883d26fc2443074
+lastReviewedNote: "Reviewed generated SDK refresh from tiangong-lca/tidas-tools 4032198caa8654faf573c795434653113b85a331; generated package surfaces and current guidance remain aligned."
 related:
   - .docpact/config.yaml
   - docs/agents/repo-validation.md

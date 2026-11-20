@@ -540,6 +540,8 @@ class PnpmWorkflowContractTests(unittest.TestCase):
         self.assertIn("- tidas_spec_released", sync)
         self.assertIn("update-tidas-spec-pin.py", sync)
         self.assertIn("update-tidas-public-rules-pin.py", sync)
+        staged_paths = sync.split("          add-paths: |\n", 1)[1].split("          branch:", 1)[0]
+        self.assertIn("scripts/ci/tidas-public-rules-pin.json", staged_paths.split())
         self.assertIn("TIDAS_SPEC_ARCHIVE_PATH", sync)
         self.assertIn("spec_archive_sha256", sync)
         self.assertIn("event_key", sync)
