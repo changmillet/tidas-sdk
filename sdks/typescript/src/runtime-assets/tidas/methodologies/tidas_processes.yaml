@@ -12,10 +12,32 @@
 
 metadata:
   version: "1.1.0"
-  last_updated: "2026-09-22"
+  last_updated: "2026-10-11"
   applies_to: "ILCD/Tidas Process Dataset v1.1"
   ef_baseline: EF Data Guide 2.0 (2020), EF 3.1 addendum (November 2022), and EF eILCD modelling 2.1 (June 2020);
     source-bound additions, not universal TIDAS gates.
+  field_writing_sources:
+    ilcd-format-1.1:
+      title: ILCD Format 1.1 documentation, Process data set
+      publisher: European Commission, Joint Research Centre
+      url: https://eplca.jrc.ec.europa.eu/LCDN/downloads/ILCD_Format_1.1_Documentation/ILCD_ProcessDataSet.html
+      use: Source of field semantics; source text is not reproduced.
+    ilcd-handbook-general-2010:
+      title: ILCD Handbook, General guide for Life Cycle Assessment, Detailed guidance
+      publisher: European Commission, Joint Research Centre
+      version: First edition, March 2010
+      url: https://eplca.jrc.ec.europa.eu/uploads/ILCD-Handbook-General-guide-for-LCA-DETAILED-GUIDANCE-12March2010-ISBN-fin-v1.0-EN.pdf
+      use: Source of goal-definition guidance and a study-level example; TIDAS examples below are newly authored,
+        hypothetical illustrations, not quotations, measured evidence or compliance declarations.
+    ilcd-handbook-lci-2010:
+      title: ILCD Handbook, Specific guide for Life Cycle Inventory data sets
+      publisher: European Commission, Joint Research Centre
+      version: First edition, March 2010
+      url: https://eplca.jrc.ec.europa.eu/uploads/ILCD-Handbook-Specific-guide-for-LCI-12March2010-ISBN-fin-v1.0-EN.pdf
+      use: Source of intended dataset roles and application limitations; source text is not reproduced.
+  field_writing_scope: Informative guidance for writing existing fields. The bilingual examples are hypothetical
+    TIDAS illustrations to adapt to the actual evidence and goal. They add no schema requirement, quality rating,
+    compliance claim or consumer execution policy. EF-specific obligations remain in the separate ef. entries.
   ef_sources:
     ef-data-guide-2.0:
       title: Guide for EF compliant data sets, Version 2.0
@@ -197,45 +219,52 @@ processDataSet:
           <rules>:
             - language: "en"
               naming_convention: |
-                Follow ILCD Rule 20: align the process base name with the reference flow naming structure.
-                - Single reference flow: reuse the reference flow's technical name as the process name.
+                ILCD Handbook Rule 20 recommends full-name alignment for single-reference Unit processes, LCI results and partly terminated systems, regardless of publication status. TIDAS applies a four-part product-LCA convention: baseName identifies the product or service, treatmentStandardsRoutes qualifies grade and technology, mixAndLocationTypes describes supply composition and delivery node independently, and functionalUnitFlowProperties states meaningful quantitative specifications. Exact equality applies to baseName; the other name fields describe the actual Process.
+                - Single reference flow: use that exact reference Flow's baseName in each corresponding language. Do not copy the Flow's complete name into baseName.
                 - Multiple reference flows: start with the technology or plant descriptor and append each reference flow name separated by commas.
-                - Exclude geographical or temporal qualifiers from the base name; capture them in the dedicated metadata fields.
+                - Keep geographic codes, years and site identifiers in dedicated metadata; record complete system boundaries and data-quality limitations in their dedicated descriptions.
               content_requirements:
                 - "Use technical terminology as applied in the supplying industry or towards customers."
                 - "Separate descriptors within the base name using commas and avoid semicolons or brackets."
-                - "Spell out terms before adding widely recognised abbreviations (e.g., \"Polypropylene,
-                  PP\")."
+                - "Spell out terms before adding widely recognised abbreviations (e.g., Polypropylene, PP)."
                 - "Cover every reference flow explicitly when the dataset is multi-functional."
                 - "Keep the wording concise enough for interface display (target 200 characters or fewer)."
+                - "A shared reference Flow can serve different Processes. Preserve their supported route, treatment, representativeness and delivery differences in the other structured name fields."
+                - "Matching base names does not establish scientific compatibility: check the exact Flow version, its other name qualifiers, properties and the Process evidence. Electricity is not an unconditional synonym for alternating current."
+              example_context: "Each of the first two examples matches the baseName of its own selected reference Flow; the last example has multiple reference flows."
               examples:
-                - "Electricity from hard coal, modern supercritical power plant"
-                - "Steel sheet, electric arc furnace, recycled scrap route"
-                - "Combined heat and power plant, natural gas, electricity and heat as reference flows"
+                - "Alternating current"
+                - "Steel sheet"
+                - "Combined heat and power plant, electricity, heat"
               best_practices:
-                - "Match the single-output reference flow name exactly."
+                - "Match only baseName exactly for a single reference Flow; do not overwrite supported Process qualifiers with generic Flow qualifiers."
+                - "When moving a meaningful descriptor out of baseName, retain its meaning in the appropriate name field in every authored language; document any deliberate removal."
                 - "For multiple reference flows, list them by decreasing quantitative relevance."
-                - "Cross-check terminology against existing datasets to support searchability."
+                - "Cross-check terminology against existing datasets to support searchability; adjudicate aliases through product-identity review instead of a global string substitution."
 
             - language: "zh"
               naming_convention: |
-                遵循 ILCD 规则20：基础名称需与参考流命名结构保持一致。
-                - 单一参考流：直接沿用参考流的技术名称作为流程名称。
-                - 多功能数据集：以技术或装置描述开头，用逗号串联每个参考流名称。
-                - 地理位置、时间等信息不要写入基础名称，在对应元数据字段中填写。
+                ILCD 手册规则20建议单参考流的单元过程、LCI结果和部分终止系统采用与参考流一致的完整名称，不以发布状态区分。TIDAS采用面向产品LCA的四段约定：baseName识别产品或服务，treatmentStandardsRoutes限定等级和技术，mixAndLocationTypes分别说明供应组合与交付节点，functionalUnitFlowProperties表达有意义的定量规格。完全同名要求针对baseName，其余名称字段描述实际Process。
+                - 单一参考流：各对应语言的baseName沿用该精确参考Flow的baseName，不把Flow完整名称复制进baseName。
+                - 多参考流：以技术或装置描述开头，用逗号串联每个参考流名称。
+                - 地理代码、年份和站点标识放在专门元数据中；完整系统边界与数据质量限制放在专门描述字段中。
               content_requirements:
                 - "使用行业通用的技术术语，必要时先写全称再补充常用缩写（例如 Polypropylene, PP）。"
                 - "同一字段内部使用逗号分隔描述，避免使用分号或括号。"
                 - "多参考流数据集需在名称中逐一覆盖所有参考流。"
                 - "名称应便于界面展示，建议控制在200个字符以内。"
+                - "不同Process可以共用参考Flow；有证据的路线、处理方式、代表性和交付差异应保留在其他结构化名称字段中。"
+                - "baseName一致不能证明科学兼容：须核对Flow精确版本、其他名称限定词、属性和Process证据。电力不能无条件视为交流电的同义词。"
+              example_context: "前两个示例分别与各自所选参考Flow的baseName相同；最后一个示例含多个参考流。"
               examples:
-                - "电力生产，燃煤，现代超临界机组"
-                - "钢板，电弧炉，再生废钢路线"
-                - "天然气联合热电机组，电力与热量为参考流"
+                - "交流电"
+                - "钢板"
+                - "联合热电机组，电力，热量"
               best_practices:
-                - "单产出数据集的名称需与参考流名称完全一致。"
+                - "单参考流只要求baseName完全一致，不以Flow泛化的限定词覆盖有证据的Process限定词。"
+                - "从baseName移出有意义的描述时，在每一种已编写语言的适当名称字段中保留其含义；有意删除须说明依据。"
                 - "多参考流时按重要性排序，保持跨数据集表述一致。"
-                - "发布前与现有数据集对比，避免重复或冲突命名。"
+                - "与现有数据集核对术语以便检索；别名通过产品身份审查判定，不做全局字符串替换。"
 
         treatmentStandardsRoutes:
           <rules>:
@@ -250,8 +279,10 @@ processDataSet:
                 - "Reference applicable standards or grades (e.g., EN 10202 prime quality, GB/T 13296)."
                 - "Indicate product quality or performance attributes (e.g., UV-resistant, flame-retardant)."
                 - "Document intended use qualifiers when relevant (e.g., for wafer production, indoor use)."
-                - "Identify production routes or feedstock types (e.g., steam cracking route, secondary
-                  material)."
+                - "Identify production routes or relevant feedstock origin (e.g., steam cracking route, primary or secondary material)."
+                - "A numeric grade identifier such as C30 or S355 remains a grade in this field; it is not itself a measured quantitative property. A recycled-material origin belongs here, while an evidenced recycled-content percentage with a stated material basis belongs in functionalUnitFlowProperties."
+                - "Summarize the actual Process technology evidence. Shared-Flow qualifiers restrict product compatibility but do not substitute for Process-specific route evidence."
+                - "Do not insert an unreviewed scaffold such as production route or treatment route; leave semantically absent qualifiers empty in the schema-supported representation."
               examples:
                 - "Chromium plated, EN 10202 prime quality, indoor use"
                 - "Sterilised, ISO 13485 compliant, medical device grade"
@@ -272,7 +303,10 @@ processDataSet:
                 - "引用适用的标准或等级（如 EN 10202 一级、GB/T 13296 等）。"
                 - "指出关键质量或性能属性（如 抗紫外、阻燃）。"
                 - "必要时补充用途限定（如 用于晶圆生产、室内使用）。"
-                - "标识生产路线或原料属性（如 蒸汽裂解路线、再生料）。"
+                - "标识生产路线或相关原料来源（如 蒸汽裂解路线、原生或再生料）。"
+                - "C30、S355等含数字的牌号仍是本字段的等级标识，不等同于测得的定量属性。再生原料来源放在本字段；有证据和明确材料基准的再生含量百分比放在functionalUnitFlowProperties。"
+                - "概括实际Process的技术证据。共享Flow的限定词约束产品兼容性，不能代替Process自身的路线证据。"
+                - "不填入未经审查的生产路线、处理路线等脚手架占位词；语义上不存在的限定词采用Schema支持的空表示。"
               examples:
                 - "铬镀层，EN 10202 一级，室内使用"
                 - "灭菌，符合 ISO 13485，医疗器械级"
@@ -287,65 +321,98 @@ processDataSet:
             - language: "en"
               naming_convention: |
                 Follow ILCD Rule 15: describe mix and location types using comma-separated qualifiers.
-                - State whether the dataset represents a production mix, consumption mix, or single technology.
+                - Continue to use production mix, consumption mix, or technology-specific as appropriate to the dataset; these established descriptions remain valid.
                 - Indicate the delivery or availability point (e.g., at plant, to consumer).
-                - Use "to" when transport to a node is included; use "at" when it represents the point of handover.
+                - Use "to" when transport to a node is included; use "at" for the point of availability or handover.
               content_requirements:
-                - "Clarify production versus consumption mix status; omit if not applicable."
-                - "Specify the commercial or logistical location type (e.g., at wholesale, at point-of-sale)."
-                - "Add other relevant availability descriptors (e.g., to waste incineration plant)."
-                - "Avoid confusing location type with intended use; reserve use-related qualifiers for
-                  treatmentStandardsRoutes."
+                - "Production mix may be expressed in Chinese as 生产组合 or 生产混合, and consumption mix as 消费组合 or 消费混合. Existing datasets may retain either established wording; this guidance requires no bulk terminology replacement."
+                - "Clarify production versus consumption mix status; omit if not applicable. Production mix is a weighted average of production in a defined geographic and temporal scope, using a documented weighting basis such as producers' output. It may combine several producers using the same technology; several technologies are not required."
+                - "Consumption mix describes the supply consumed in the represented scope, accounting for relevant domestic supply, imports and exports using documented evidence. Add a market qualifier when needed to distinguish the scope; do not require renaming consumption mix to market consumption mix."
+                - "Technology-specific remains a valid standalone descriptor in this field. It may coexist with an evidenced production or consumption mix because technology and supply representativeness describe different aspects. Put the specific route name in treatmentStandardsRoutes."
+                - "Where the established descriptions do not adequately express enterprise purchasing, enterprise procurement mix may be added as an optional TIDAS extension, not an original ILCD enumeration. Document the enterprise scope and purchase-weighting basis without implying market representativeness."
+                - "Specify the commercial or logistical location type (e.g., at wholesale, at point-of-sale); other established descriptors such as to wholesale or to waste incineration plant remain valid when supported."
+                - "If a node is ambiguous, specify its evidenced receiving, dispatch or dispensing interface. Do not impose a universal before/after-processing meaning on at/to. A to boundary needs evidence for the represented transport; naming the node is not proof of complete inventory coverage. Document included transport, losses, processing and exclusions separately."
+                - "Derive qualifiers from the actual dataset. A reference Flow name, delivery to a user, a transmission/distribution loss proxy or a mapping adapter alone does not establish a consumption mix. If only an availability point is evidenced, state that point without inferring a mix or transport boundary."
+                - "A documented upstream production or consumption mix may be retained through transmission, delivery or a 1:1 voltage accounting adapter with no new weighting, when its suppliers, shares, geography, period and scope still apply to the downstream output. Document losses and delivery separately; a Flow label, loss ratio or 1:1 topology alone does not prove inheritance. Delivery of a production mix to users does not automatically make it a consumption mix; verify the relevant consumption and trade scope, and keep unverified representativeness under review rather than silently deleting an existing qualifier."
+                - "When grid delivery and a downstream 1:1 voltage accounting adapter retain the same evidenced delivered-consumer boundary, consistently retain to consumer; changing it to at consumer receiving point does not by itself establish a different node. Distinct boundaries need documented differences in included transport and losses; the adapter adds none by itself and inherits the delivery convention only to the extent the upstream boundary is evidenced."
+                - "Distinguish physical supply composition from contractual or attribute accounting. A certificate alone establishes neither physical generation technology nor zero impact. State any evidenced accounting basis explicitly in the modelling documentation; never silently substitute it for a physical mix."
+                - "Supplier procurement shares are composition evidence, not product quantitative specifications. Record shares, weighting basis and exclusions in the supply/model documentation, not functionalUnitFlowProperties."
+                - "For a Model-derived LCI result, name the whole Model's supply composition and delivery interface from its evidence. The resulting Process retains the reviewed Model name, not a narrower final Process name."
+                - "Keep geographic codes, years, enterprise/site identifiers, complete boundaries and data-quality caveats in dedicated metadata. Use-related qualifiers belong in treatmentStandardsRoutes; omit unsupported or inapplicable qualifiers rather than inserting placeholders."
               examples:
                 - "Production mix, at plant"
                 - "Consumption mix, to consumer"
                 - "Technology-specific, to wholesale"
                 - "Production mix, to waste incineration plant"
+                - "Production mix, technology-specific, at plant"
+                - "Production mix, at power plant"
+                - "Consumption mix, to user"
+                - "Enterprise procurement mix, at user receiving point"
               best_practices:
-                - "Align mix terminology with documented system boundaries."
-                - "Keep qualifiers consistent across datasets representing the same market."
-                - "Review transport assumptions to choose between \"at\" and \"to\" correctly."
+                - "Align mix terminology with documented system boundaries and weighting evidence."
+                - "Keep qualifiers consistent across datasets representing the same market; retain established descriptions when no further distinction is needed."
+                - "Review transport assumptions to choose between at and to correctly; an interface label alone does not establish the represented burdens."
+                - "A Model graph or node label alone does not establish missing upstream route or mix evidence; retain the unresolved limitation."
 
             - language: "zh"
               naming_convention: |
-                遵循 ILCD 规则15：用逗号标注混合类型与交付地点类型。
-                - 说明是否为生产混合、消费混合或特定技术数据。
-                - 明确交付或可用位置（如 产地交付、批发交付、终端消费者）。
-                - 涉及运输到某节点时使用“至”，表示交接点时使用“在”。
+                遵循ILCD规则15：用逗号标注混合类型与交付地点类型。
+                - 按数据集实际情况继续使用生产混合、消费混合或特定技术等既有描述；这些表述仍然有效。
+                - 明确交付或可用位置（如在工厂、至终端消费者）。
+                - 包含运输到某节点时使用“至”（to），表示可得或交接点时使用“在”（at）。
               content_requirements:
-                - "区分生产混合与消费混合；若不适用可省略。"
-                - "标注物流或商业节点（如 在批发、在零售点）。"
-                - "根据需要补充其他可得性描述（如 至焚烧厂）。"
-                - "避免与用途混淆，真正的用途限定应写在 treatmentStandardsRoutes 字段。"
+                - "生产组合/生产混合、消费组合/消费混合均为相应英文mix的既有中文表述；已有数据可沿用原词，不为统一用字而全量改名。"
+                - "区分生产混合与消费混合；若不适用可省略。生产混合是已定义地域与时间范围内的生产加权平均，采用有记录的权重依据，如各生产者产出量。可以组合采用同一技术的多个生产者，不以包含多种技术为前提。"
+                - "消费混合描述所代表范围内被消费的供应，依据已记录证据考虑相关本地供应、进口和出口。需要区分范围时可增加市场限定，不要求将消费混合统一改名为市场消费混合。"
+                - "特定技术仍是本字段有效的独立描述。技术代表性与供应代表性描述不同方面，因此特定技术可与有证据的生产混合或消费混合并存。具体路线名称放在treatmentStandardsRoutes。"
+                - "当既有描述不足以表达企业采购场景时，可选用企业采购组合作为TIDAS补充约定；它不是ILCD原有枚举。须说明企业范围和采购加权依据，不据此声称市场代表性。"
+                - "标注物流或商业节点（如在批发、在零售点）；至批发商、至废物焚烧厂等既有描述在有依据时继续适用。"
+                - "节点有歧义时，说明有证据的接收、发出或加注接口。不将at/to统一定义为处理前/后。to声明的边界须有相应运输证据；所写节点不证明清单覆盖完整，所含运输、损耗、处理与排除项另行说明。"
+                - "根据实际数据集确定限定词。仅凭参考Flow名称、送达用户、输配损耗代理或映射适配过程，不能证明消费混合。只有可得节点有依据时，写明该节点，不推定组合或运输边界。"
+                - "有记录的上游生产混合或消费混合可经输电、交付或无新增加权的1:1电压核算适配过程保留，前提是其供方、份额、地域、时期和范围仍适用于下游产出。损耗与交付另行说明；Flow标签、损耗比例或1:1拓扑本身不能证明继承。生产混合送达用户不会自动变成消费混合；须核实相关消费与贸易范围，代表性未核实时保留待审限制，不静默删除已有组合限定词。"
+                - "当电网交付与下游1:1电压核算适配过程保留相同且有证据的终端消费者交付边界时，统一沿用to consumer（至终端消费者）；改写为at consumer receiving point（在消费者接收点）本身不构成新节点。不同边界须记录所含运输与损耗的差异；适配过程本身不增加这些负荷，只在上游边界已有证据的范围内继承交付约定。"
+                - "区分物理供应组合与合同或属性核算。单凭证书既不能证明实际发电技术，也不能证明零影响。任何有依据的核算方式均应在建模说明中明确，不得暗中替代物理组合。"
+                - "供方采购份额是组合证据，不是产品定量规格。份额、加权基准与排除项放在供应或模型说明中，不放在functionalUnitFlowProperties。"
+                - "Model生成的LCI结果名称依据证据描述整个Model的供应组合与交付接口。结果Process继承经审查的Model名称，不采用范围更窄的最终Process名称。"
+                - "地理代码、年份、企业/站点标识、完整边界和数据质量限制放在专门元数据中。用途限定放在treatmentStandardsRoutes；无依据或不适用的限定词省略，不填占位词。"
               examples:
                 - "生产混合，在工厂"
                 - "消费混合，至终端消费者"
                 - "特定技术，至批发商"
                 - "生产混合，至废物焚烧厂"
+                - "生产混合，特定技术，在工厂"
+                - "生产组合，在电厂"
+                - "消费组合，至用户"
+                - "企业采购组合，在用户接收端"
               best_practices:
-                - "与系统边界描述保持一致。"
-                - "同一市场的可交付点描述应保持统一。"
-                - "核对运输假设，正确选择“在”或“至”。"
+                - "组合术语与已记录的系统边界、加权证据保持一致。"
+                - "同一市场的描述保持统一；无需进一步区分时保留既有表述。"
+                - "核对运输假设，正确选择在或至；接口标签本身不能证明所代表的负荷。"
+                - "Model图或节点名称本身不能证明缺失的上游路线或组合事实；保留尚未解决的限制。"
 
         functionalUnitFlowProperties:
           <rules>:
             - language: "en"
               naming_convention: |
-                Follow ILCD Rule 16: document quantitative qualifying properties with explicit units and comma separation.
-                - Express constituent content or energy content per functional unit.
-                - Use percentage, concentration, or energy density formats that mirror measurement data.
-                - State the reference basis when it is not the default mass/mass relation.
+                Follow ILCD Rule 16 for quantitative qualifying properties. Under the TIDAS convention, include evidenced specifications that affect function, quality, physical state or substitutability, with explicit units and basis.
+                - State a product or process specification, not the functional-unit quantity or reference exchange amount.
+                - Use content, concentration, energy density or relevant operating-state values consistent with the source evidence.
+                - State the measurement/reference basis and relevant conditions; do not infer density, calorific value or other missing values.
               content_requirements:
-                - "Quantify key constituents or energy content (e.g., 24 % Fe, 9.6 MJ/kg net calorific value)."
+                - "Quantify distinguishing constituents, energy content or physical specifications (e.g., iron mass fraction, net calorific value, moisture basis, voltage, or steam pressure/temperature when relevant and evidenced)."
+                - "Equipment capacity, processing duration and loss rate are not quantitative name specifications unless they define the delivered service function or substitutability; otherwise retain them in technology/route descriptions or modelling documentation."
+                - "A material recycled-content percentage may qualify the product when its denominator and material boundary are explicit. Do not confuse it with the share purchased from one supplier or covered by a certificate."
                 - "Indicate the measurement basis explicitly when different from mass fraction (e.g., by
                   volume, molar)."
                 - "Include multiple properties as separate comma-separated entries."
+                - "Do not fill this field with a functional unit such as 1 kg or 1 kWh, unit conversion such as 1 kWh = 3.6 MJ, a footprint result, supplier weights, reference-amount scaling instructions, or statements that voltage/delivery follows another record. Keep semantically absent qualifiers empty using the supported representation."
                 - "Avoid duplicating information stored in dedicated property fields (e.g., CAS numbers)."
               examples:
                 - "24 % Fe mass/mass"
                 - "9.6 MJ/kg net calorific value"
                 - "90.5 % methane by volume"
-                - "0.05 % sulfur mass/mass, 30 MJ/m3 lower heating value"
+                - "10 mg/kg sulfur mass fraction"
+                - "30 % recycled material by mass of the finished product"
               best_practices:
                 - "Use significant figures consistent with data quality statements."
                 - "Adopt SI units or widely accepted industrial units."
@@ -353,20 +420,24 @@ processDataSet:
 
             - language: "zh"
               naming_convention: |
-                遵循 ILCD 规则16：用逗号分隔定量属性，明确单位与计量基准。
-                - 表达关键组分含量或能量含量，并指明参考单位。
-                - 常用百分比、浓度或能量密度形式，与测量数据保持一致。
-                - 当基准不是质量分数时需额外说明（如 体积分数、摩尔分数）。
+                遵循ILCD规则16的定量限定属性指导。TIDAS约定只填写有证据、影响功能、质量、物理状态或可替代性的规格，明确单位与基准。
+                - 表达产品或过程规格，不是功能单位数量或参考交换数量。
+                - 采用与来源证据一致的含量、浓度、能量密度或相关状态数值。
+                - 说明计量/参考基准及相关条件，不推定密度、热值等缺失数值。
               content_requirements:
-                - "量化主要组分或能量（如 24 % Fe、9.6 MJ/kg 净热值）。"
+                - "量化具有辨识作用的组分、能量或物理规格（如铁质量分数、净热值、含水率基准、电压，或相关且有证据的蒸汽压力/温度）。"
+                - "设备容量、工艺时长和损耗率只有在其定义交付服务的功能或可替代性时才属于本字段；否则保留在技术/路线描述或建模说明中。"
+                - "材料再生含量百分比只有在分母与材料边界明确时才可作为产品限定；不得混同于某供方采购份额或证书覆盖份额。"
                 - "若基准不同于质量分数，应明确写出（如 体积分数、摩尔）。"
                 - "多项属性分别列出并以逗号分隔。"
+                - "不以1 kg、1 kWh等功能单位数量、1 kWh = 3.6 MJ等单位换算、足迹结果、供方权重、参考量缩放说明或电压/交付点遵循其他记录的表述填充本字段；语义上不存在的限定词采用受支持的空表示。"
                 - "避免重复记录已在其他属性字段中的信息（如 CAS 号）。"
               examples:
                 - "24 % Fe 质量分数"
                 - "9.6 MJ/kg 净热值"
                 - "90.5 % 甲烷 体积分数"
-                - "0.05 % 硫 质量分数，30 MJ/m3 低位发热量"
+                - "10 mg/kg 硫质量分数"
+                - "再生材料占成品质量的30 %"
               best_practices:
                 - "保持与数据质量声明一致的有效数字。"
                 - "优先使用 SI 单位或行业通行单位。"
@@ -607,6 +678,42 @@ processDataSet:
                 超超临界(USC)煤粉燃烧技术，600°C/620°C蒸汽条件。包括：磨煤、
                 燃烧、蒸汽发生、汽轮机运行、冷凝。辅助：脱硝(SCR)、脱硫(FGD)、
                 静电除尘器。不包括：煤炭开采、灰渣处理基础设施。
+      technologicalApplicability:
+        <rules>:
+          - language: en
+            id: writing.technological-applicability.en
+            normative_level: informative
+            applicability: When authoring technologicalApplicability in a Process dataset.
+            source_refs:
+              - source: ilcd-format-1.1
+                section: Technological applicability; eDoc 1-1-10-27
+            requirement: Describe the real-world uses of the represented good, service or technology.
+            writing_guidelines:
+              - Identify the physical product or service and relevant operating or product-grade conditions.
+              - Put the dataset's analytical purpose in intendedApplications and methodological cautions in
+                useAdviceForDataSet; neither is a substitute for the physical application.
+            examples:
+              - The represented electricity supplies end-use equipment compatible with the stated voltage level.
+            anti_examples:
+              - text: Used for product LCA and hotspot screening.
+                reason: This describes an analytical use of the dataset; it belongs in intendedApplications,
+                  with the actual target system and intended level of detail.
+          - language: zh
+            id: writing.technological-applicability.zh
+            normative_level: informative
+            applicability: 编写 Process 数据集的 technologicalApplicability 字段时。
+            source_refs:
+              - source: ilcd-format-1.1
+                section: Technological applicability; eDoc 1-1-10-27
+            requirement: 说明所代表的产品、服务或技术在现实中的用途。
+            writing_guidelines:
+              - 指明实际产品或服务，以及相关运行条件或产品等级条件。
+              - 数据集的分析目的写在 intendedApplications，方法学使用注意事项写在 useAdviceForDataSet；二者均不能代替实际用途。
+            examples:
+              - 所代表电力用于与声明电压等级相容的终端用电设备。
+            anti_examples:
+              - text: 用于产品生命周期评价和热点识别。
+                reason: 这描述的是数据集的分析用途，应写在 intendedApplications，并结合实际目标系统与预期详细程度说明。
       referenceToTechnologyFlowDiagrammOrPicture:
         <rules>:
           - language: all
@@ -945,6 +1052,52 @@ processDataSet:
               fertilizer and pesticide data per hectare and year.
       useAdviceForDataSet:
         <rules>:
+          - language: en
+            id: writing.use-advice.en
+            normative_level: informative
+            applicability: When authoring useAdviceForDataSet in a Process dataset.
+            source_refs:
+              - source: ilcd-format-1.1
+                section: Use advice for data set; eDoc 1-3-16-62
+              - source: ilcd-handbook-lci-2010
+                section: 5.2, printed page 9
+            requirement: Explain methodological conditions and limitations that a user needs to apply the dataset correctly.
+            writing_guidelines:
+              - Tie advice to the actual boundary, representativeness, modelling approach and known limitations;
+                state what the user must check, add or avoid double counting.
+              - Preserve meaningful scientific dataset references and applicable prescribed notices. In the EF
+                supporting-dataset scope, follow ef.supporting-use-advice and the central-dataset identification
+                in the General comment; a UUID is not by itself workflow contamination.
+              - Keep internal task routing and pending save/adoption instructions in the task record. Actual
+                review and publication metadata remain in their proper dataset fields.
+            examples:
+              - Before use, check the voltage level, supply boundary and inclusion of transmission/distribution
+                losses to avoid omissions or double counting. Assess representativeness when combining other
+                years or regions. This average inventory does not directly represent marginal supply changes.
+            anti_examples:
+              - text: Wait for task A17 review, then save the draft and adopt it in model B4.
+                reason: This is internal work coordination, not methodological advice to a dataset user.
+          - language: zh
+            id: writing.use-advice.zh
+            normative_level: informative
+            applicability: 编写 Process 数据集的 useAdviceForDataSet 字段时。
+            source_refs:
+              - source: ilcd-format-1.1
+                section: Use advice for data set; eDoc 1-3-16-62
+              - source: ilcd-handbook-lci-2010
+                section: 5.2, printed page 9
+            requirement: 说明使用者正确应用数据集所需的方法学条件与限制。
+            writing_guidelines:
+              - 根据实际系统边界、代表性、建模方法及已知限制，明确使用者需要核对、补充或避免重复计算的内容。
+              - 保留有科学意义的数据集引用和适用的规定声明。EF 支持子数据集应遵循 ef.supporting-use-advice，
+                并在 General comment 中标明中心数据集；UUID 本身并不构成工作流内容污染。
+              - 内部任务分派、待保存与待采用指令保留在任务记录中；实际评审与发布元数据仍保留在其对应数据集字段中。
+            examples:
+              - 使用前应核对电压等级、供电边界及所需输配电损失是否已包含，避免遗漏或重复计算；与其他年份或地区组合时应评价代表性差异。
+                该平均清单不直接用于边际供电变化分析。
+            anti_examples:
+              - text: 等待任务 A17 审核后保存草稿，再采用到模型 B4。
+                reason: 这是内部工作协调事项，不是提供给数据集使用者的方法学建议。
           - language: all
             id: ef.use-advice
             normative_level: shall
@@ -1220,6 +1373,73 @@ processDataSet:
     common:commissionerAndGoal:
       common:intendedApplications:
         <rules>:
+          - language: en
+            id: writing.intended-applications.en
+            normative_level: informative
+            applicability: When authoring intendedApplications in a Process dataset.
+            source_refs:
+              - source: ilcd-format-1.1
+                section: Intended applications; eDoc 1-5-24-98
+              - source: ilcd-handbook-general-2010
+                section: 5.2.1, printed pages 30-31; 5.2.3-5.2.5, printed pages 33-35
+              - source: ilcd-handbook-lci-2010
+                section: 5.2, printed page 9
+            requirement: Explain why the data were collected and modelled, the study or decision they are meant to
+              support, and the intended detail, specificity and quality ambition.
+            writing_guidelines:
+              - A useful structure is purpose or decision, target system and dataset role, then intended level
+                of analysis. Identify use as primary data or as secondary/background data, further modelling
+                needs or comparative use when relevant; this is a writing aid, not a mandatory sentence template.
+              - State quality ambition as a development goal, not an achieved quality score, reviewed status
+                or EF compliance claim. Use actual evidence for any claim about achieved quality.
+              - Put methodological use conditions in useAdviceForDataSet and physical product or technology
+                uses in technologicalApplicability. Identify the audience or intended comparative use when
+                relevant, without inventing permission for a public comparative assertion.
+              - Keep internal task IDs, handoff destinations, pending review/save/adoption and queue progress
+                in the task record. Retain identifiers that genuinely identify a scientific system or dataset,
+                and real review/publication metadata in their appropriate fields.
+            examples:
+              - To provide average electricity-supply background inventory for attributional product inventories
+                and hotspot screening in the stated year and region. The development aims to represent annual
+                average supply conditions, rather than individual plants or hourly dispatch.
+              - To supply waste-treatment inventory for a study of recycling and incineration options for used
+                office paper in Australia. The intended role is background input to scenario modelling at the
+                study's declared scale; it is not a complete comparative study on its own.
+            anti_examples:
+              - text: Candidate for task A17; return to baseline B4, await independent review, native save and adoption.
+                reason: This records a work queue and handoff status without explaining the scientific purpose.
+              - text: Used by equipment at the stated voltage level.
+                reason: This is the physical application of electricity; it belongs in technologicalApplicability.
+          - language: zh
+            id: writing.intended-applications.zh
+            normative_level: informative
+            applicability: 编写 Process 数据集的 intendedApplications 字段时。
+            source_refs:
+              - source: ilcd-format-1.1
+                section: Intended applications; eDoc 1-5-24-98
+              - source: ilcd-handbook-general-2010
+                section: 5.2.1, printed pages 30-31; 5.2.3-5.2.5, printed pages 33-35
+              - source: ilcd-handbook-lci-2010
+                section: 5.2, printed page 9
+            requirement: 说明为什么采集和建立这些数据、准备支持什么研究或决策，以及预期详细程度、针对性和质量目标。
+            writing_guidelines:
+              - 可按“研究或决策目的 → 目标系统与数据集角色 → 预期分析层次”组织；适用时说明作为一手数据或二手/背景数据的用途、
+                是否需要进一步建模以及是否用于比较。这是写作辅助，不是强制句式。
+              - 质量目标是开发意图，不等同于已经达到的质量评分、评审状态或 EF 合规声明；实际质量声明须有真实证据。
+              - 方法学使用条件写在 useAdviceForDataSet，产品或技术的实际用途写在 technologicalApplicability。
+                必要时说明受众或比较用途，不据此虚构公开比较性论断的许可。
+              - 内部任务编号、交接去向、待审核/保存/采用及队列进度保留在任务记录中。有科学意义的系统或数据集标识可保留，
+                实际评审与发布元数据保留在其对应字段中。
+            examples:
+              - 为所声明年份与地区的归因型产品清单编制和热点识别提供平均供电背景清单。
+                开发目标是在该时空范围内表示年度平均供电条件，不以单个电厂或小时调度为分辨率。
+              - 为澳大利亚废办公用纸回收与焚烧方案研究提供废物处理清单。
+                预期作为研究声明尺度下的情景建模背景输入，本身不构成完整的比较研究。
+            anti_examples:
+              - text: 任务 A17 的接收候选，返回 B4 基线；待独立审核、原生保存和采用。
+                reason: 只描述任务队列和交接状态，没有说明数据的科学用途。
+              - text: 供与声明电压等级相容的设备使用。
+                reason: 这是电力的实际用途，应写在 technologicalApplicability。
           - language: all
             id: ef.intended-applications
             normative_level: shall

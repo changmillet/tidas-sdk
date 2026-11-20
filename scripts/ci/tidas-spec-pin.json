@@ -1,19 +1,19 @@
 {
   "pinVersion": 1,
   "package": "@tiangong-lca/tidas-spec",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "sourceRepository": "https://github.com/tiangong-lca/tidas-spec.git",
-  "sourceCommit": "32e1ba38da7d5f4f6245c6c1927f83b326cd5404",
-  "sourceRef": "v0.3.0",
+  "sourceCommit": "894bd1710c37dcfeffb19aee6a52a7cb941a9975",
+  "sourceRef": "v0.3.1",
   "importedFrom": {
     "repository": "https://github.com/tiangong-lca/tidas-toolkit",
     "commit": "9c0d8b1c8ceb1841074f5bc6de5fbb7fcc9318f5"
   },
-  "archiveFile": "tiangong-lca-tidas-spec-0.3.0.tgz",
-  "archiveSha256": "bca02f6731ec190ab4fb11c3bd8a859217e621805a47daec1d06e1c682f9310e",
+  "archiveFile": "tiangong-lca-tidas-spec-0.3.1.tgz",
+  "archiveSha256": "4bd76d7f451419be4d13b0cdbf6ee0c1a43609e7ed3c180aa4af1af73d389ba1",
   "manifestFile": "spec-manifest.json",
   "manifestPathInArchive": "package/spec-manifest.json",
-  "manifestSha256": "3c7ce8dfc6bee2f343dda01096b222257755e5013e0cc8a803ade38cf4bf1a5a",
+  "manifestSha256": "5875729b5a91c2c195395f6268ba7a21b3ecc8a1a39f0d619e8b638322af83cd",
   "assetRootInPackage": "assets/tidas",
-  "releaseArchiveUrl": "https://github.com/tiangong-lca/tidas-spec/releases/download/v0.3.0/tiangong-lca-tidas-spec-0.3.0.tgz"
+  "releaseArchiveUrl": "https://github.com/tiangong-lca/tidas-spec/releases/download/v0.3.1/tiangong-lca-tidas-spec-0.3.1.tgz"
 }

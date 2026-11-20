@@ -18,9 +18,9 @@ checkPaths:
   - .nvmrc
   - package.json
   - .docpact/config.yaml
-lastReviewedAt: 2026-11-19
-lastReviewedCommit: 60567cfdd0e66ddeb66b67ea00b379630cd78431
-lastReviewedNote: "SDK #186. Reviewed setup-python and pnpm/setup inputs for tag qualification and trusted publishing."
+lastReviewedAt: "2026-11-19"
+lastReviewedCommit: "3da457da35bb6588283b8177001149e229e65014"
+lastReviewedNote: "Reviewed generated SDK refresh from tiangong-lca/tidas-tools 4032198caa8654faf573c795434653113b85a331; generated package surfaces and current guidance remain aligned."
 related:
   - ../AGENTS.md
   - ../.docpact/config.yaml
