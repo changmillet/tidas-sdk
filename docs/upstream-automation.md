@@ -19,8 +19,8 @@ checkPaths:
   - .nvmrc
   - package.json
   - .docpact/config.yaml
-lastReviewedAt: "2026-11-19"
-lastReviewedCommit: "3da457da35bb6588283b8177001149e229e65014"
+lastReviewedAt: 2026-11-20
+lastReviewedCommit: fcd0c66a1d5f4b1fc45c2ef6a883d26fc2443074
 lastReviewedNote: "Reviewed generated SDK refresh from tiangong-lca/tidas-tools 4032198caa8654faf573c795434653113b85a331; generated package surfaces and current guidance remain aligned."
 related:
   - ../AGENTS.md
@@ -200,7 +200,7 @@ Recommended responsibilities:
     - TypeScript regeneration intentionally leaves reviewed package output uncommitted before version preparation. The filtered `pnpm version` command uses `--no-git-checks` solely for that dirty-tree precondition; it still makes no tag or commit, and the later package verification and PR review remain mandatory.
 11. update the repository's exact tools commit only for a tools event; update the spec archive pin only from a spec event
 12. record deterministic review metadata in every Docpact-required governed document
-13. commit generated package files, exact pins, and governed review records to a bot branch
+13. commit generated package files, exact pins, and governed review records to a bot branch; both `scripts/ci/tidas-spec-pin.json` and `scripts/ci/tidas-public-rules-pin.json` travel with the generated TypeScript public-rule assets
 14. open or update a release-prep PR against `main`
 
 Validation-contract safeguard for TypeScript refreshes:

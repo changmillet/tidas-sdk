@@ -490,6 +490,7 @@ jobs:
             docs/upstream-automation.md
             scripts/ci/lib/tidas-tools-source.sh
             scripts/ci/tidas-spec-pin.json
+            scripts/ci/tidas-public-rules-pin.json
           branch: ${{ steps.upstream.outputs.branch_name }}
           base: main
           delete-branch: false
