@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import {
+  constants as fsConstants,
+  copyFileSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
@@ -9,7 +11,7 @@ import {
   rmSync,
   writeFileSync,
 } from 'node:fs';
-import { basename, dirname, join, relative } from 'node:path';
+import { basename, dirname, isAbsolute, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
 import test from 'node:test';
@@ -651,6 +653,14 @@ test(
           installedTypeScript
         )}`
       );
+
+      // Export only after every installed consumer assertion has passed. The
+      // canonical verifier still packs again and compares the exact bytes.
+      const qualifiedPack = process.env.TIDAS_SDK_VERIFIED_PACK;
+      if (qualifiedPack !== undefined) {
+        assert.ok(isAbsolute(qualifiedPack), 'qualified pack output must be absolute');
+        copyFileSync(tarball[0], qualifiedPack, fsConstants.COPYFILE_EXCL);
+      }
     } finally {
       rmSync(fixtureRoot, { recursive: true, force: true });
     }

@@ -15,8 +15,8 @@ checkPaths:
   - .github/dependabot.yml
   - .github/workflows/ci.yml
   - docs/agents/dependency-updates.md
-lastReviewedAt: 2026-11-19
-lastReviewedCommit: 60567cfdd0e66ddeb66b67ea00b379630cd78431
+lastReviewedAt: 2026-11-21
+lastReviewedCommit: bf44391ca5bcd2269e12ae7cd45fa50550f13cb2
 lastReviewedNote: "SDK #186. Reviewed the four grouped Actions against the seven-day cooldown and SDK package qualification policy."
 related:
   - ../../AGENTS.md

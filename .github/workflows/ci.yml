@@ -14,6 +14,9 @@ on:
       - sdks/typescript/package.json
       - sdks/typescript/examples/package.json
       - sdks/python/pyproject.toml
+      - scripts/ci/verify-typescript-package.sh
+      - scripts/ci/test-automation-contracts.py
+      - sdks/typescript/tests/toolchain-contract.test.mjs
   workflow_dispatch:
 
 permissions:

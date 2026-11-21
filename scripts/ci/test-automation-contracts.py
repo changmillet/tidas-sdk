@@ -970,14 +970,34 @@ printf '%s|%s\\n' "$*" "${TIDAS_TOOLS_PATH:-}" >> "$SDK_PHASE_TRACE"
 case "$*" in
   *' run typecheck') phase=typecheck ;;
   *' run generate-types') phase=generate-types ;;
+  *' run test') phase=test ;;
+  *' pack --pack-destination '*) phase=pack ;;
   *) phase=other ;;
 esac
 if [ "$phase" = "${SDK_FAIL_PHASE:-}" ]; then exit 23; fi
 if [ "$phase" = generate-types ] && [ "${SDK_INJECT_DRIFT:-0}" = 1 ]; then
   printf '%s\\n' 'unexpected generation drift' > "$SDK_FIXTURE_ROOT/sdks/typescript/src/drift.ts"
 fi
+if [ "$phase" = test ] && [ -n "${TIDAS_SDK_VERIFIED_PACK:-}" ]; then
+  case "${SDK_QUALIFIED_PACK_MODE:-valid}" in
+    missing) : ;;
+    empty) : > "$TIDAS_SDK_VERIFIED_PACK" ;;
+    directory) mkdir "$TIDAS_SDK_VERIFIED_PACK" ;;
+    symlink)
+      printf '%s\\n' fixture > "$SDK_FIXTURE_ROOT/foreign-proof.tgz"
+      ln -s "$SDK_FIXTURE_ROOT/foreign-proof.tgz" "$TIDAS_SDK_VERIFIED_PACK" ;;
+    *) printf '%s\\n' fixture > "$TIDAS_SDK_VERIFIED_PACK" ;;
+  esac
+  if [ "${SDK_FAIL_PHASE:-}" = test-after-proof ]; then exit 23; fi
+fi
 case "$*" in
-  *' pack --pack-destination '*) for destination do :; done; printf '%s\\n' fixture > "$destination/fixture.tgz" ;;
+  *' pack --pack-destination '*)
+    for destination do :; done
+    if [ "${SDK_FINAL_PACK_DRIFT:-0}" = 1 ]; then
+      printf '%s\\n' changed > "$destination/fixture.tgz"
+    else
+      printf '%s\\n' fixture > "$destination/fixture.tgz"
+    fi ;;
 esac
 ''')
         pnpm.chmod(0o755)
@@ -992,6 +1012,7 @@ esac
                                 env=env, text=True, capture_output=True)
         calls = [line.split("|", 1) for line in self.trace.read_text().splitlines()]
         self.assertEqual(list(self.fixture_tmp.glob("tidas-tools.*")), [], "owned source must be cleaned on every exit")
+        self.assertEqual(list(self.fixture_tmp.glob("tidas-sdk-qualified.*")), [], "owned qualified packs must be cleaned on every exit")
         if calls:
             self.assertEqual(len({source for _, source in calls}), 1, "every phase must use the same pinned clone")
             self.assertNotEqual(calls[0][1], str(self.sibling))
@@ -1004,7 +1025,7 @@ esac
         expected = ["--filter @tiangong-lca/tidas-sdk --fail-if-no-match run verify-public-rules", "install --frozen-lockfile"] + [
             "--filter @tiangong-lca/tidas-sdk --fail-if-no-match run " + phase
             for phase in ("generate-types", "generate-schemas", "bundle-methodologies", "sync-runtime-assets",
-                          "lint", "typecheck", "test", "check:examples", "build")
+                          "lint", "typecheck", "test", "check:examples")
         ]
         self.assertEqual(calls[:-1], expected)
         self.assertTrue(calls[-1].startswith("--filter @tiangong-lca/tidas-sdk --fail-if-no-match pack --pack-destination "))
@@ -1014,6 +1035,37 @@ esac
         unknown, calls = self.full_verify_trace(standalone=True, extra=("--unknown",))
         self.assertEqual(unknown.returncode, 2)
         self.assertEqual(calls, [])
+
+    def test_consumer_qualified_pack_replaces_only_the_later_build(self):
+        self.prepare_full_verify()
+        result, calls = self.full_verify_trace()
+        self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+        self.assertTrue(any(command.endswith(" run test") for command in calls))
+        self.assertTrue(any(command.endswith(" run check:examples") for command in calls))
+        self.assertFalse(any(command.endswith(" run build") for command in calls))
+        self.assertEqual(sum(" pack --pack-destination " in command for command in calls), 1)
+
+    def test_missing_or_empty_consumer_proof_refuses_final_pack(self):
+        self.prepare_full_verify()
+        for mode in ("missing", "empty", "symlink", "directory"):
+            with self.subTest(mode=mode):
+                result, calls = self.full_verify_trace(SDK_QUALIFIED_PACK_MODE=mode)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertFalse(any(" pack --pack-destination " in command for command in calls))
+
+    def test_final_pack_drift_is_not_qualified(self):
+        self.prepare_full_verify()
+        result, _ = self.full_verify_trace(SDK_FINAL_PACK_DRIFT="1")
+        self.assertNotEqual(result.returncode, 0)
+
+    def test_failed_test_or_final_pack_cleans_owned_proof(self):
+        self.prepare_full_verify()
+        for phase in ("test", "test-after-proof", "pack"):
+            with self.subTest(phase=phase):
+                result, calls = self.full_verify_trace(SDK_FAIL_PHASE=phase)
+                self.assertEqual(result.returncode, 23, result.stderr + result.stdout)
+                if phase != "pack":
+                    self.assertFalse(any(" pack --pack-destination " in command for command in calls))
 
     def test_strict_typecheck_failure_stops_later_gates_but_standalone_stays_advisory(self):
         self.prepare_full_verify()

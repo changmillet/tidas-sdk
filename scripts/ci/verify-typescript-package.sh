@@ -69,21 +69,34 @@ echo "[typescript] typecheck"
 (cd "$REPO_ROOT" && pnpm --filter @tiangong-lca/tidas-sdk --fail-if-no-match run typecheck)
 
 echo "[typescript] test"
-(cd "$REPO_ROOT" && pnpm --filter @tiangong-lca/tidas-sdk --fail-if-no-match run test)
+pack_verification_root="$(mktemp -d "${TMPDIR:-/tmp}/tidas-sdk-qualified.XXXXXX")"
+qualified_pack="$pack_verification_root/consumer-qualified.tgz"
+trap 'rm -rf -- "$pack_verification_root"; cleanup_tidas_spec_source; cleanup_tidas_tools_source' EXIT
+(cd "$REPO_ROOT" && TIDAS_SDK_VERIFIED_PACK="$qualified_pack" \
+    pnpm --filter @tiangong-lca/tidas-sdk --fail-if-no-match run test)
+if [ ! -f "$qualified_pack" ] || [ ! -s "$qualified_pack" ] || [ -L "$qualified_pack" ]; then
+    echo "error: the cold installed consumer did not qualify a package archive" >&2
+    exit 1
+fi
 
 echo "[typescript] examples"
 (cd "$REPO_ROOT" && pnpm --filter @tiangong-lca/tidas-sdk --fail-if-no-match run check:examples)
 
-echo "[typescript] build"
-(cd "$REPO_ROOT" && pnpm --filter @tiangong-lca/tidas-sdk --fail-if-no-match run build)
-
 echo "[typescript] pack verification"
 (
-    pack_dir="$(mktemp -d)"
-    trap 'rm -rf -- "$pack_dir"' EXIT
+    pack_dir="$pack_verification_root/final"
+    mkdir "$pack_dir"
     cd "$REPO_ROOT"
     pnpm --filter @tiangong-lca/tidas-sdk --fail-if-no-match pack --pack-destination "$pack_dir" >/dev/null
-    find "$pack_dir" -maxdepth 1 -type f -name '*.tgz' -print -quit | grep -q .
+    final_packs=("$pack_dir"/*.tgz)
+    if [ "${#final_packs[@]}" -ne 1 ] || [ ! -f "${final_packs[0]}" ] || [ -L "${final_packs[0]}" ]; then
+        echo "error: final pack must produce one regular package archive" >&2
+        exit 1
+    fi
+    if ! cmp -s "$qualified_pack" "${final_packs[0]}"; then
+        echo "error: final pack differs from the cold-consumer qualified archive" >&2
+        exit 1
+    fi
 )
 
 echo "[typescript] verification complete"
