@@ -19,8 +19,8 @@ checkPaths:
   - .nvmrc
   - package.json
   - .docpact/config.yaml
-lastReviewedAt: 2026-11-20
-lastReviewedCommit: fcd0c66a1d5f4b1fc45c2ef6a883d26fc2443074
+lastReviewedAt: 2026-11-21
+lastReviewedCommit: bf44391ca5bcd2269e12ae7cd45fa50550f13cb2
 lastReviewedNote: "Reviewed generated SDK refresh from tiangong-lca/tidas-tools 4032198caa8654faf573c795434653113b85a331; generated package surfaces and current guidance remain aligned."
 related:
   - ../AGENTS.md
