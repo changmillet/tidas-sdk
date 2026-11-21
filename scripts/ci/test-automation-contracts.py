@@ -982,6 +982,7 @@ if [ "$phase" = test ] && [ -n "${TIDAS_SDK_VERIFIED_PACK:-}" ]; then
   case "${SDK_QUALIFIED_PACK_MODE:-valid}" in
     missing) : ;;
     empty) : > "$TIDAS_SDK_VERIFIED_PACK" ;;
+    directory) mkdir "$TIDAS_SDK_VERIFIED_PACK" ;;
     symlink)
       printf '%s\\n' fixture > "$SDK_FIXTURE_ROOT/foreign-proof.tgz"
       ln -s "$SDK_FIXTURE_ROOT/foreign-proof.tgz" "$TIDAS_SDK_VERIFIED_PACK" ;;
@@ -1046,7 +1047,7 @@ esac
 
     def test_missing_or_empty_consumer_proof_refuses_final_pack(self):
         self.prepare_full_verify()
-        for mode in ("missing", "empty", "symlink"):
+        for mode in ("missing", "empty", "symlink", "directory"):
             with self.subTest(mode=mode):
                 result, calls = self.full_verify_trace(SDK_QUALIFIED_PACK_MODE=mode)
                 self.assertNotEqual(result.returncode, 0)

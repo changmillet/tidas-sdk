@@ -74,7 +74,7 @@ qualified_pack="$pack_verification_root/consumer-qualified.tgz"
 trap 'rm -rf -- "$pack_verification_root"; cleanup_tidas_spec_source; cleanup_tidas_tools_source' EXIT
 (cd "$REPO_ROOT" && TIDAS_SDK_VERIFIED_PACK="$qualified_pack" \
     pnpm --filter @tiangong-lca/tidas-sdk --fail-if-no-match run test)
-if [ ! -s "$qualified_pack" ] || [ -L "$qualified_pack" ]; then
+if [ ! -f "$qualified_pack" ] || [ ! -s "$qualified_pack" ] || [ -L "$qualified_pack" ]; then
     echo "error: the cold installed consumer did not qualify a package archive" >&2
     exit 1
 fi
