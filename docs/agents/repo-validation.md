@@ -28,8 +28,8 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-11-21
-lastReviewedCommit: bf44391ca5bcd2269e12ae7cd45fa50550f13cb2
+lastReviewedAt: 2026-11-24
+lastReviewedCommit: d7bd523b7ae361e450f9d139c69c3f1353cbc79a
 lastReviewedNote: "Reviewed generated SDK refresh from tiangong-lca/tidas-tools 4032198caa8654faf573c795434653113b85a331; generated package surfaces and current guidance remain aligned."
 related:
   - ../../AGENTS.md
