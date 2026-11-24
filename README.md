@@ -20,8 +20,8 @@ checkPaths:
   - sdks/python/**
   - scripts/ci/**
   - .nvmrc
-lastReviewedAt: 2026-11-21
-lastReviewedCommit: bf44391ca5bcd2269e12ae7cd45fa50550f13cb2
+lastReviewedAt: 2026-11-24
+lastReviewedCommit: 57b6661bef26c9d5037b67d03320f6426c4d23ec
 lastReviewedNote: "Reviewed generated SDK refresh from tiangong-lca/tidas-tools 4032198caa8654faf573c795434653113b85a331; generated package surfaces and current guidance remain aligned."
 ---
 
