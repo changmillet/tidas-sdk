@@ -30,7 +30,7 @@ checkPaths:
   - scripts/install-git-hooks.sh
 lastReviewedAt: 2026-11-26
 lastReviewedCommit: cb668d6d07667ef851a0cace2a6b8d4cd844d671
-lastReviewedNote: "Reviewed generated SDK refresh from tiangong-lca/tidas-tools 4032198caa8654faf573c795434653113b85a331; generated package surfaces and current guidance remain aligned."
+lastReviewedNote: "SDK #200 reviewed exact Process exchange amount validation across generated SDKs and existing package release gates."
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml
@@ -162,6 +162,8 @@ frozen lock. Do not describe 0.6.0 as retroactive stability for that old runtime
 No consumer repository is upgraded by local qualification. Main merge of this
 version bump has concrete tag/npm effects; source/tarball proof is separate
 from authorization for that release chain and its eventual registry receipt.
+
+Use the shared Process exchange amount control and cases under `test-data/` for exact numeric equivalence, original-value diagnostics and variable references. Both package verifiers run these cases.
 
 ## Process allocation/reference semantic API proof
 

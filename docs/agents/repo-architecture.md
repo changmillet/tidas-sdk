@@ -28,7 +28,7 @@ checkPaths:
   - scripts/install-git-hooks.sh
 lastReviewedAt: 2026-11-26
 lastReviewedCommit: cb668d6d07667ef851a0cace2a6b8d4cd844d671
-lastReviewedNote: "Reviewed generated SDK refresh from tiangong-lca/tidas-tools 4032198caa8654faf573c795434653113b85a331; generated package surfaces and current guidance remain aligned."
+lastReviewedNote: "SDK #200 reviewed exact Process exchange amount validation across generated SDKs and existing package release gates."
 related:
   - ../../AGENTS.md
   - ../../.docpact/config.yaml
@@ -165,6 +165,8 @@ This repository has a versioned local `pre-push` hook under `.githooks/pre-push`
 
 
 The ILCD compatibility candidate extends generated singletons with repeated fields and named classifications. The Zod generator treats `$comment` as an annotation and supports the narrowly defined `not`/`required` form used for conflicting aliases; unsupported negation remains a generation error. TypeScript array generation groups union and intersection item types before appending `[]`. Platform policy, including review eligibility and deliberately required documentation, is not relaxed by these public shape changes.
+
+The generated Process exchange validates unparameterized inventory quantities on the original decimal values. Both SDKs report the same conflict code and preserve the original values. The Python Process entity also applies the rule after schema-only validation.
 
 ## Process semantic analysis
 

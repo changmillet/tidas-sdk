@@ -538,6 +538,11 @@ export class JsonSchemaToZod {
       )}])`;
     }
 
+    if (this.fileName === 'tidas_processes.json' &&
+        location === '#/properties/processDataSet/properties/exchanges/properties/exchange/items') {
+      this.validationHelpers.add('checkProcessExchangeAmounts');
+      rendered += '.superRefine(checkProcessExchangeAmounts, { when: ({value}) => value != null && typeof value === "object" })';
+    }
     return rendered;
   }
 }

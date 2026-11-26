@@ -19,7 +19,7 @@ checkPaths:
   - package.json
   - .docpact/config.yaml
 lastReviewedAt: 2026-11-26
-lastReviewedCommit: cb668d6d07667ef851a0cace2a6b8d4cd844d671
+lastReviewedCommit: aea93233b67620a3a327105c515cd977156dfba5
 lastReviewedNote: "Reviewed generated SDK refresh from tiangong-lca/tidas-tools 4032198caa8654faf573c795434653113b85a331; generated package surfaces and current guidance remain aligned."
 related:
   - ../AGENTS.md

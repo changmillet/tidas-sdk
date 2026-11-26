@@ -8,6 +8,7 @@ from typing import Any, Mapping, cast
 from uuid import uuid4
 
 from ..core.base import TidasEntity
+from ..core.process_exchange_amount import exchange_amount_error
 from ..generated.tidas_processes import (
     ProcessDataSetAdministrativeInformationDataEntryBy,
     ProcessDataSetAdministrativeInformationPublicationAndOwnership,
@@ -41,6 +42,20 @@ class TidasProcess(TidasEntity[Processes]):
         validate_on_init: bool = False,
     ) -> None:
         super().__init__(Processes, initial_data, validate_on_init=validate_on_init)
+
+    def _validate_with_jsonschema(self, data: Mapping[str, Any]) -> bool:
+        if not super()._validate_with_jsonschema(data):
+            return False
+        exchanges = data["processDataSet"].get("exchanges", {}).get("exchange", [])
+        issues = []
+        for index, exchange in enumerate(exchanges):
+            error = exchange_amount_error(
+                exchange["meanAmount"], exchange["resultingAmount"], exchange.get("referenceToVariable")
+            )
+            if error:
+                issues.append(f"processDataSet/exchanges/exchange/{index}/resultingAmount: {error.type}: {error}")
+        object.__setattr__(self, "_last_jsonschema_errors", issues)
+        return not issues
 
     @classmethod
     def from_xml(

@@ -1,0 +1,15 @@
+[
+  {"meanAmount":"0.306","resultingAmount":"306.0","conflict":true},
+  {"meanAmount":"0.306","resultingAmount":"0.306","conflict":false},
+  {"meanAmount":"1","resultingAmount":"1.00","conflict":false},
+  {"meanAmount":"1e-3","resultingAmount":"0.001","conflict":false},
+  {"meanAmount":"-0","resultingAmount":"+0.000E+3","conflict":false},
+  {"meanAmount":"-.200","resultingAmount":"-2E-1","conflict":false},
+  {"meanAmount":"9007199254740992","resultingAmount":"9007199254740993","conflict":true},
+  {"meanAmount":"1e-500","resultingAmount":"2e-500","conflict":true},
+  {"meanAmount":"1e100000000000000000000","resultingAmount":"10e99999999999999999999","conflict":false},
+  {"meanAmount":"1","resultingAmount":"4","referenceToVariable":"   ","conflict":true},
+  {"meanAmount":"1","resultingAmount":"4","referenceToVariable":"","conflict":true},
+  {"meanAmount":"1","resultingAmount":"4","referenceToVariable":null,"conflict":true},
+  {"meanAmount":"1","resultingAmount":"4","referenceToVariable":"scale","conflict":false}
+]

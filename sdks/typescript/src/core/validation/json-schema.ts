@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { findProcessExchangeAmountConflict } from './process-exchange-amount';
 import { TIDAS_LANGUAGE_CODES } from './tidas-languages';
 
 const supportedLanguages = new Set<string>(TIDAS_LANGUAGE_CODES);
@@ -294,4 +295,19 @@ export function jsonSchemaNotRequired(keys: readonly string[]) {
       context.addIssue({ code: 'custom', message: 'Properties must not all be present', path: [keys[0] ?? ''] });
     }
   });
+}
+
+export function checkProcessExchangeAmounts(
+  exchange: { meanAmount?: unknown; resultingAmount?: unknown; referenceToVariable?: unknown },
+  ctx: z.RefinementCtx
+): void {
+  const conflict = findProcessExchangeAmountConflict(exchange);
+  if (conflict) {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['resultingAmount'],
+      message: conflict.message,
+      params: { validationCode: conflict.code, meanAmount: conflict.meanAmount, resultingAmount: conflict.resultingAmount },
+    });
+  }
 }
