@@ -6,7 +6,8 @@ from __future__ import annotations
 
 from typing import Annotated, Literal
 
-from pydantic import Field, model_validator
+from tidas_sdk.core.process_exchange_amount import validate_resulting_amount
+from pydantic import Field, field_validator, model_validator
 from tidas_sdk.core.base import TidasBaseModel
 from tidas_sdk.core.multilang import MultiLangList
 
@@ -391,6 +392,8 @@ class ExchangesExchangeItem(TidasBaseModel):
     references_to_data_source: ExchangeItemReferencesToDataSource | None = Field(default=None, alias='referencesToDataSource', description='"Source data set" of data source(s) used for the value of this specific Input or Output, especially if differing from the general data source used for this data set.')
     general_comment: MultiLangList = Field(default_factory=MultiLangList, alias='generalComment', description='General comment on this specific Input or Output, e.g. commenting on the data sources used and their specific representatuveness etc., on the status of "finalisation" of an entry as workflow information, etc.')
     common_other: CommonOther | None = Field(default=None, alias='common:other')
+
+    _check_resulting_amount = field_validator('resulting_amount')(validate_resulting_amount)
 
 class ProcessesProcessDataSetExchanges(TidasBaseModel):
     exchange: list[ExchangesExchangeItem] = Field(default_factory=list, alias='exchange')

@@ -1,6 +1,7 @@
 // Generated directly from TIDAS JSON Schema: tidas_processes.json
 import { z } from 'zod';
 import {
+  checkProcessExchangeAmounts,
   jsonSchemaOneOf,
   jsonSchemaTuple,
   withJsonSchemaConditional,
@@ -927,89 +928,95 @@ export const ProcessesSchema = z.object({
     }),
     exchanges: z.object({
       exchange: z.array(
-        z.object({
-          '@dataSetInternalID': Int6Schema,
-          referenceToFlowDataSet: GlobalReferenceTypeSchema,
-          location: z.union([LocationsCategorySchema, StringSchema]).optional(),
-          functionType: z
-            .intersection(
-              z.union([
-                z.literal('General reminder flow'),
-                z.literal('Allocation reminder flow'),
-                z.literal('System expansion reminder flow'),
-              ]),
+        z
+          .object({
+            '@dataSetInternalID': Int6Schema,
+            referenceToFlowDataSet: GlobalReferenceTypeSchema,
+            location: z
+              .union([LocationsCategorySchema, StringSchema])
+              .optional(),
+            functionType: z
+              .intersection(
+                z.union([
+                  z.literal('General reminder flow'),
+                  z.literal('Allocation reminder flow'),
+                  z.literal('System expansion reminder flow'),
+                ]),
+                z.string(),
+              )
+              .optional(),
+            exchangeDirection: z.intersection(
+              z.union([z.literal('Input'), z.literal('Output')]),
               z.string(),
-            )
-            .optional(),
-          exchangeDirection: z.intersection(
-            z.union([z.literal('Input'), z.literal('Output')]),
-            z.string(),
-          ),
-          referenceToVariable: StringSchema.optional(),
-          meanAmount: RealSchema,
-          resultingAmount: RealSchema,
-          minimumAmount: RealSchema.optional(),
-          maximumAmount: RealSchema.optional(),
-          uncertaintyDistributionType: z
-            .intersection(
-              z.union([
-                z.literal('undefined'),
-                z.literal('log-normal'),
-                z.literal('normal'),
-                z.literal('triangular'),
-                z.literal('uniform'),
-              ]),
-              z.string(),
-            )
-            .optional(),
-          relativeStandardDeviation95In: PercSchema.optional(),
-          allocations: z
-            .object({
-              allocation: z.union([
-                z.object({
-                  '@internalReferenceToCoProduct': Int6Schema.optional(),
-                  '@allocatedFraction': PercSchema.optional(),
-                }),
-                z.array(
+            ),
+            referenceToVariable: StringSchema.optional(),
+            meanAmount: RealSchema,
+            resultingAmount: RealSchema,
+            minimumAmount: RealSchema.optional(),
+            maximumAmount: RealSchema.optional(),
+            uncertaintyDistributionType: z
+              .intersection(
+                z.union([
+                  z.literal('undefined'),
+                  z.literal('log-normal'),
+                  z.literal('normal'),
+                  z.literal('triangular'),
+                  z.literal('uniform'),
+                ]),
+                z.string(),
+              )
+              .optional(),
+            relativeStandardDeviation95In: PercSchema.optional(),
+            allocations: z
+              .object({
+                allocation: z.union([
                   z.object({
                     '@internalReferenceToCoProduct': Int6Schema.optional(),
                     '@allocatedFraction': PercSchema.optional(),
                   }),
-                ),
-              ]),
-            })
-            .optional(),
-          dataSourceType: z
-            .intersection(
+                  z.array(
+                    z.object({
+                      '@internalReferenceToCoProduct': Int6Schema.optional(),
+                      '@allocatedFraction': PercSchema.optional(),
+                    }),
+                  ),
+                ]),
+              })
+              .optional(),
+            dataSourceType: z
+              .intersection(
+                z.union([
+                  z.literal('Primary'),
+                  z.literal('> 90% primary'),
+                  z.literal('Mixed primary / secondary'),
+                  z.literal('Secondary'),
+                ]),
+                z.string(),
+              )
+              .optional(),
+            dataDerivationTypeStatus: z.intersection(
               z.union([
-                z.literal('Primary'),
-                z.literal('> 90% primary'),
-                z.literal('Mixed primary / secondary'),
-                z.literal('Secondary'),
+                z.literal('Measured'),
+                z.literal('Calculated'),
+                z.literal('Estimated'),
+                z.literal('Unknown derivation'),
+                z.literal('Missing important'),
+                z.literal('Missing unimportant'),
               ]),
               z.string(),
-            )
-            .optional(),
-          dataDerivationTypeStatus: z.intersection(
-            z.union([
-              z.literal('Measured'),
-              z.literal('Calculated'),
-              z.literal('Estimated'),
-              z.literal('Unknown derivation'),
-              z.literal('Missing important'),
-              z.literal('Missing unimportant'),
-            ]),
-            z.string(),
-          ),
-          referencesToDataSource: z
-            .object({
-              referenceToDataSource: GlobalReferenceTypeSchema.optional(),
-              'common:other': CommonOtherSchema.optional(),
-            })
-            .optional(),
-          generalComment: StringMultiLangSchema.optional(),
-          'common:other': CommonOtherSchema.optional(),
-        }),
+            ),
+            referencesToDataSource: z
+              .object({
+                referenceToDataSource: GlobalReferenceTypeSchema.optional(),
+                'common:other': CommonOtherSchema.optional(),
+              })
+              .optional(),
+            generalComment: StringMultiLangSchema.optional(),
+            'common:other': CommonOtherSchema.optional(),
+          })
+          .superRefine(checkProcessExchangeAmounts, {
+            when: ({ value }) => value != null && typeof value === 'object',
+          }),
       ),
       'common:other': CommonOtherSchema.optional(),
     }),

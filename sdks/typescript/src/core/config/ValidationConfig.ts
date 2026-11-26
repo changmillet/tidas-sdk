@@ -49,6 +49,7 @@ export type ValidationIssueCode =
   | 'unrecognized_keys'
   | 'invalid_union'
   | 'localized_text_language_not_in_tidas_enum'
+  | 'process_exchange_amount_conflict'
   | 'duplicate_language_entry'
   | 'localized_text_zh_must_include_chinese_character'
   | 'localized_text_en_must_not_contain_chinese_character'
@@ -106,6 +107,7 @@ const LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE =
 const CAS_NUMBER_CHECKSUM_ERROR_CODE = 'cas_number_checksum_error';
 
 const KNOWN_CUSTOM_VALIDATION_CODES = new Set<ValidationIssueCode>([
+  'process_exchange_amount_conflict',
   'duplicate_language_entry',
   LOCALIZED_TEXT_ZH_MUST_INCLUDE_CHINESE_CHARACTER_CODE,
   LOCALIZED_TEXT_EN_MUST_NOT_CONTAIN_CHINESE_CHARACTER_CODE,
@@ -354,6 +356,8 @@ export class ValidationUtils {
               keys: issue.keys.join(', '),
             }
           : undefined;
+      case 'process_exchange_amount_conflict':
+        return { meanAmount: issue.params?.meanAmount, resultingAmount: issue.params?.resultingAmount };
       case 'duplicate_language_entry':
         return {
           language: issue.params?.language,

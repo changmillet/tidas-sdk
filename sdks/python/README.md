@@ -156,3 +156,8 @@ semicolon and space. Missing translations and names over 1000 Unicode code
 points are reported explicitly. Use the results alongside structural
 validation. The caller provides the exact Flow document and the functions
 leave the input dictionaries intact.
+
+
+### Process exchange inventory amounts
+
+When an exchange has no nonblank variable reference, its mean and resulting amounts must have the same exact decimal value. Signed zero, insignificant zeros and equivalent exponents compare equal. A conflict reports `process_exchange_amount_conflict` on the exchange’s `resultingAmount` field with both original values. Validation preserves the payload. A named variable may produce a different result. Scalar and reference field constraints still apply.

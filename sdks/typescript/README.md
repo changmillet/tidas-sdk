@@ -359,3 +359,10 @@ caller-supplied raw TIDAS documents and uses no resolver, filesystem, network
 or mutation. Existing structural validation and the allocation profile keep
 their existing contract. Consumers can use a successful composition as a
 reviewable candidate when constructing or repairing a reference.
+
+
+### Process exchange inventory amounts
+
+When an exchange has no nonblank variable reference, its mean and resulting amounts must have the same exact decimal value. Signed zero, insignificant zeros and equivalent exponents compare equal. A conflict reports `process_exchange_amount_conflict` on the exchange’s `resultingAmount` field with both original values. Validation preserves the payload. A named variable may produce a different result. Scalar and reference field constraints still apply.
+
+Consumers reading partial exchange records can call `findProcessExchangeAmountConflict(exchange)` before converting quantities to numbers. It returns the conflict or `undefined`. The helper accepts finite numbers for legacy consumer records. ProcessSchema retains its TIDAS Real string contract.

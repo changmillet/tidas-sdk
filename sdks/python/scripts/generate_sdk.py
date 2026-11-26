@@ -179,6 +179,9 @@ class SchemaGenerator:
             lines.append("")
 
         pydantic_imports = ["Field"]
+        if source_name == "tidas_processes.json":
+            pydantic_imports.append("field_validator")
+            lines.append("from tidas_sdk.core.process_exchange_amount import validate_resulting_amount")
         if (
             needs_localized_text_validators
             or needs_flow_name_condition_validator
@@ -265,6 +268,9 @@ class SchemaGenerator:
                 f"    {field_def.name}: {annotation} = Field({', '.join(field_args)})"
             )
             lines.append(field_line)
+
+        if model.name == "ExchangesExchangeItem":
+            lines.extend(["", "    _check_resulting_amount = field_validator('resulting_amount')(validate_resulting_amount)"])
 
         validator_lines = cls._render_localized_text_validator(model.name)
         if validator_lines:
