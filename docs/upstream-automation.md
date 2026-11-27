@@ -20,7 +20,7 @@ checkPaths:
   - package.json
   - .docpact/config.yaml
 lastReviewedAt: 2026-11-27
-lastReviewedCommit: d2ec85aa0b2b9d024bbebb46d0a2f0b92707eb73
+lastReviewedCommit: f5a89d4a990acd51413c38180e4ba326ed6c8c80
 lastReviewedNote: "SDK #200 reviewed exact Process exchange amount validation across generated SDKs and existing package release gates."
 related:
   - ../AGENTS.md

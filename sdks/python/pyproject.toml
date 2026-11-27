@@ -68,6 +68,7 @@ python_functions = "test_*"
 addopts = "-v --cov=src/tidas_sdk --cov-report=term-missing --cov-report=html"
 
 [tool.coverage.run]
+core = "sysmon"
 source = ["src/tidas_sdk"]
 omit = ["*/tests/*", "*/test_*.py"]
 

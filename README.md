@@ -21,7 +21,7 @@ checkPaths:
   - scripts/ci/**
   - .nvmrc
 lastReviewedAt: 2026-11-27
-lastReviewedCommit: d2ec85aa0b2b9d024bbebb46d0a2f0b92707eb73
+lastReviewedCommit: f5a89d4a990acd51413c38180e4ba326ed6c8c80
 lastReviewedNote: "Reviewed generated SDK refresh from tiangong-lca/tidas-tools 4032198caa8654faf573c795434653113b85a331; generated package surfaces and current guidance remain aligned."
 ---
 
