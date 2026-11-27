@@ -35,18 +35,77 @@ permissions:
 
 concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  plan:
+    name: Plan SDK validation scope
+    runs-on: ubuntu-latest
+    outputs:
+      run_ts: ${{ steps.classify.outputs.run_ts }}
+      run_python: ${{ steps.classify.outputs.run_python }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Classify SDK scope (fail-closed)
+        id: classify
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HAS_FULL_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'ci:full') }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" != "pull_request" ] || [ "$HAS_FULL_LABEL" = "true" ]; then
+            echo "run_ts=true" >> "$GITHUB_OUTPUT"
+            echo "run_python=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ -z "$BASE_SHA" ] || ! git cat-file -e "${BASE_SHA}^{commit}" 2>/dev/null; then
+            echo "run_ts=true" >> "$GITHUB_OUTPUT"
+            echo "run_python=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          run_ts="false"
+          run_python="false"
+          file_count=0
+          while IFS= read -r file; do
+            [ -n "$file" ] || continue
+            file_count=$((file_count + 1))
+            case "$file" in
+              sdks/typescript/*)
+                run_ts="true"
+                ;;
+              sdks/python/*)
+                run_python="true"
+                ;;
+              *)
+                run_ts="true"
+                run_python="true"
+                break
+                ;;
+            esac
+          done < <(git diff --name-only "$BASE_SHA" HEAD)
+          if [ "$file_count" -eq 0 ]; then
+            run_ts="true"
+            run_python="true"
+          fi
+          echo "run_ts=${run_ts}" >> "$GITHUB_OUTPUT"
+          echo "run_python=${run_python}" >> "$GITHUB_OUTPUT"
+
   typescript:
     name: TypeScript package
+    needs: plan
+    if: needs.plan.outputs.run_ts == 'true'
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
 
       - name: Check automation before package bootstrap
@@ -64,6 +123,8 @@ jobs:
 
   python:
     name: Python package
+    needs: plan
+    if: needs.plan.outputs.run_python == 'true'
     runs-on: ubuntu-latest
     outputs:
       dist-inventory: ${{ steps.inventory.outputs.inventory }}
@@ -72,7 +133,6 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
 
       - name: Set up Python
@@ -116,7 +176,6 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
 
       - name: Set up Python

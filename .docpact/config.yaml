@@ -1,7 +1,7 @@
 version: 1
 layout: repo
-lastReviewedAt: "2026-11-26"
-lastReviewedCommit: "aea93233b67620a3a327105c515cd977156dfba5"
+lastReviewedAt: "2026-11-27"
+lastReviewedCommit: "d2ec85aa0b2b9d024bbebb46d0a2f0b92707eb73"
 lastReviewedNote: "SDK #186. Reviewed the four workflow Action updates and exact pnpm/setup assertion across CI, upstream sync, tagging and package publishing."
 
 catalog:

@@ -31,8 +31,8 @@ checkPaths:
   - scripts/docpact
   - scripts/docpact-gate.sh
   - scripts/install-git-hooks.sh
-lastReviewedAt: 2026-11-26
-lastReviewedCommit: aea93233b67620a3a327105c515cd977156dfba5
+lastReviewedAt: 2026-11-27
+lastReviewedCommit: d2ec85aa0b2b9d024bbebb46d0a2f0b92707eb73
 lastReviewedNote: "SDK #200 reviewed exact Process exchange amount validation across generated SDKs and existing package release gates."
 related:
   - .docpact/config.yaml
